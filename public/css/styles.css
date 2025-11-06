@@ -72,7 +72,7 @@ nav {
     flex-direction: column; 
     align-items: center; 
     gap: 1px; 
-    background-color: black;
+    background-color: var(--text-dark);
 }
 
 #nav ul li {
@@ -91,84 +91,68 @@ nav {
  * 3. MAIN CONTENT STYLES (Mobile)
  *************************************************/
 @media screen and (max-width: 768px) {
-  h1 {
+ main h1 {
     font-size: 1.5em;
     margin-top: 20px;
 }
-  header {
-    background-color: #004d40; /* Dark, professional color */
-    color: white;
-    padding: 10px 0;
-}
-  #top-header {
+  .main-content, 
+.upgrades-container {
     display: flex;
-    justify-content: space-between; /* Puts items on opposite sides */
-    align-items: center;
-    padding: 0 10px;
-    }
-
-#top-header a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+    flex-direction: column;
+    gap: 20px;
 }
 
-/* Navigation Bar (Mobile: Stacked, No Flexbox) */
-#nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    /* Styles for the black background */
-    background-color: black; 
-    display: flex; /* Enable flex for mobile to center/distribute if desired */
-    flex-direction: column; /* MOBILE: Stack the items vertically */
-    gap: 2px; /* Small gap between stacked items */
+.review-container {
+    border: 1px solid var(--text-light);
+    padding: 15px;
 }
 
-#nav ul li a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 8px 15px;
-    background-color: black; /* Ensures the black background on each link */
+/*************************************************
+ * 4. FOOTER STYLES
+ *************************************************/
+footer {
+    text-align: center;
+    padding: 15px 0;
+    border-top: 1px solid var(--text-light);
+    margin-top: 30px;
 }
-
-#tools {
-  margin-left: auto;
-  }
 
 }
 
-/* PC view */
+/*************************************************
+ * 5. MEDIA QUERIES (Larger Screens - Desktop Layout)
+ *************************************************/
 @media screen and (min-width: 768px) {
-  #top-header {
-    padding: 0;
-    margin-bottom: 10px;
+  #site-container {
+        width: 100%;
     }
 
+    #nav ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 40px;
+    }
 
-  #nav {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+    #nav ul li {
+        width: auto;
+    }
+    
+    .main-content {
+        flex-direction: row;
+        gap: 40px;
+    }
+    
+    .main-content section {
+        flex: 1;
+    }
 
-  #nav ul {
-    display: flex;
-    background-color: black;
-    gap: 25px;
-    margin: 0;
-    padding: 5;
-    list-style: none;
-    justify-content: center;
-} 
-
-#nav ul li a {
-  color: white;
-  padding: 10px 15px;
-  text-decoration: none;
-  display: block;
-
-}
-
+    .upgrades-container {
+        flex-direction: row;
+    }
+    
+    .upgrades-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 }
