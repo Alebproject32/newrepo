@@ -9,7 +9,7 @@ const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
-const static = require("./routes/static")
+const static = require("./routes/static") // comment
 
 /* ***************************************
  * Middleware to static files
@@ -26,7 +26,7 @@ app.set("layout", "./layouts/layout") // not at views root
 /* ***********************
  * Routes
  *************************/
-app.use(static)
+app.use(static) // comment
 // Index route
 app.get("/", function(req, res){
   res.render("index", {title: "Home"})})

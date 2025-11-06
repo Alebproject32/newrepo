@@ -39,11 +39,36 @@
     }
 
 
-.sitename {
+.sitename a {
   margin-right: auto;
   }
 
-#tools {
+#tools a {
   margin-left: auto;
   }
+
+  #nav {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #nav ul {
+    display: flex;
+    background-color: black;
+    gap: 25px;
+    margin: 0;
+    padding: 5;
+    list-style: none;
+    justify-content: center;
+} 
+
+#nav ul li a {
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+
+}
+
 }
