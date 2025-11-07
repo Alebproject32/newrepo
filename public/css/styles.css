@@ -20,19 +20,25 @@ body {
     padding: 0;
     background-color: var(--primary-light);
     color: var(--text-dark);
+    background-image: url("/images/site/checkerboard.jpg");
+    background-repeat: repeat;
 }
 
-#square {
-  border-color: var(--primary-dark);
-  border-radius: 2px;
-  margin: 100px;
+#wrapper {
+    background-color: var(--primary-light);
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--primary-dark);
+    margin: 75px;
+    border-radius: 5px;
 }
 
 /* Utility to Center Main Content */
 #site-container {
     width: 95%;
     max-width: 1200px;
-    margin: 0 auto; /* Centers the whole page content */
+    margin: 20px; /* Centers the whole page content */
 }
 
 a {
