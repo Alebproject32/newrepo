@@ -193,3 +193,14 @@ VALUES   (
     'White',
     5
   );
+
+-- #4 Modify the "GM Hummer" record
+UPDATE inventory
+SET inv_description = REPLACE(inv_description, 'the small interiors', 'an enormous interior')
+WHERE inv_make = 'GM' AND inv_model = 'Hummer';
+
+-- #6 Update using "REPLACE"
+UPDATE inventory
+SET
+    inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
+    inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
