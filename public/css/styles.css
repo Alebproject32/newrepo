@@ -47,7 +47,7 @@ h1 {
 }
 
 a {
-    color: var(--third-color);
+    color: var(--text-dark);
     text-decoration: none;
 }
 
@@ -270,6 +270,38 @@ a {
     text-decoration: none;
 }
 
+    #inv-display {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    #inv-display li { 
+        list-style-type: none;
+        text-align: center;
+        border: 1px solid var(--primary-dark);
+        padding: 10px;
+        border-radius: 5px;
+        background-color: var(--third-color);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        overflow: hidden; 
+        min-height: 200px;
+    }
+
+    #inv-display li img { 
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto 5px auto;
+        border-radius: 5px;
+        object-fit: contain; 
+        width: 100%;
+        max-height: 100px;
+    }
 
 /*************************************************
  * 4. FOOTER STYLES
@@ -290,7 +322,7 @@ footer {
  *************************************************/
 @media screen and (min-width: 768px) {
   #site-container {
-        width: 100%;
+        width: 95%;
     }
 
     #nav ul {
@@ -371,8 +403,52 @@ footer {
         font-size: 1.2em; 
     }
 
-    footer {
+    #inv-display  img {
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        object-fit: contain;
+        margin: 0 auto 10px auto;
+        width: 100%; 
+        max-height: 120px;
+    }
+
+
     
+    #inv-display { 
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 20px; 
+        padding: 20px 0;
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    
+    #inv-display li {
+        text-align: center;
+        border: 1px solid var(--text-dark);
+        padding: 15px;
+        border-radius: 5px;
+        background-color: var(--text-light);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        align-items: center;
+        overflow: hidden;
+        min-height: 250px;
+    }
+   
+    #inv-display a {
+        font-weight: bold;
+        color: var(--accent-color);
+        display: block; 
+        margin-top: 10px;
+    }
+
+
+    footer {
     padding: 15px 0;
     border-top: 1px solid var(--text-light);
     margin-top: 20px;

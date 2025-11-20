@@ -11,6 +11,7 @@ const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static") // comment
 const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute");
 
 /* ***************************************
  * Middleware to static files
@@ -31,8 +32,11 @@ app.use(static) // comment
 // Index route
 // app.get("/", function(req, res){
   //res.render("index", {title: "Home"})}) // Last route
+  
 app.get("/", baseController.buildHome) // New route
 
+// Inventory routes
+app.use("/inv", inventoryRoute)
 /* ***********************
  * Local Server Information
  * Values from .env (environment) file
