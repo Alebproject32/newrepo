@@ -296,7 +296,7 @@ footer {
     #nav ul {
         flex-direction: row;
         justify-content: center;
-        gap: 190px;
+        gap: 150px;
         margin: 10px;
     }
 
