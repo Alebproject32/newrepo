@@ -10,6 +10,7 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static") // comment
+const baseController = require("./controllers/baseController")
 
 /* ***************************************
  * Middleware to static files
@@ -28,8 +29,9 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(static) // comment
 // Index route
-app.get("/", function(req, res){
-  res.render("index", {title: "Home"})})
+// app.get("/", function(req, res){
+  //res.render("index", {title: "Home"})}) // Last route
+app.get("/", baseController.buildHome) // New route
 
 /* ***********************
  * Local Server Information
