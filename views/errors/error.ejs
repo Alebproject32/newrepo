@@ -1,0 +1,15 @@
+<%# views/errors/error.ejs %>
+
+<div class="main-content-error">
+  <%# 4. Use the "title" variable for the main heading %>
+  <h1><%= title %></h1>
+
+  <%# Image about car crashing %>
+  <img src="/images/site/car_crash.jpg" alt="Funny image of car crash" />
+
+  <%# 5. Clearly display the "message" variable %>
+  <p><%- message %></p>
+
+  <%# Optional: Add a link back to the home page %>
+  <a href="/">Return to Home Page</a>
+</div>
