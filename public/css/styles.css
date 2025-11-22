@@ -28,7 +28,7 @@ body {
 }
 
 h1 {
-    margin-left: 20px;
+    margin-left: 220px;
 }
 #wrapper {
     background-color: var(--primary-light);
@@ -91,6 +91,11 @@ img {
     font-size: 2.2em;
     margin-bottom: 20px;
 }
+
+.professional-note {
+    margin-left: 110px;
+}
+
 /*********************************
  * DELOREAN HERO SECTION
  *********************************/
@@ -155,6 +160,74 @@ img {
 .btn-primary:hover {
     background-color: var(--second-color); 
 }
+
+/************************************
+ * STYLES FOR SINGLE VEHICLE DETAIL
+ ************************************/
+.vehicle-details-container {
+    display: flex;
+    flex-wrap: wrap; /* Stacks on small screens */
+    gap: 30px;
+    margin-top: 20px;
+    padding: 0 10px;
+    justify-content: center;
+}
+
+.detail-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.detail-info {
+    flex-grow: 1;
+    min-width: 300px;
+    max-width: 500px;
+}
+
+.detail-info h2 {
+    color: var(--primary-dark);
+    margin-top: 0;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.price-detail {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+.detail-list {
+    list-style: none;
+    padding: 0;
+}
+
+.detail-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    border-color: solid var(--text-dark);
+    background-color: var(--text-light);
+    border-radius: 5px;
+    margin: 5px;
+    padding: 2px;
+    height: auto;
+    width: auto;
+}
+
+
+.detail-list .label {
+    font-weight: bold;
+    display: inline-block;
+    width: 150px;
+    color: #555;
+}
+
 
 /*************************************************
  * 1. HEADER (TOP ROW) STYLES
@@ -224,6 +297,10 @@ nav {
  main h1 {
     font-size: 1.5em;
     margin-top: 20px;
+}
+
+h1 {
+    margin-left: 70px;
 }
   .main-content, 
 .upgrades-container {
@@ -295,7 +372,7 @@ nav {
 }
 
 a {
-    color: var(--third-color);
+    color: var(--accent-color);
     text-decoration: none;
 }
 
@@ -341,7 +418,13 @@ footer {
     margin-top: 20px;
     margin-left: 40px;
 }
+.professional-note {
+    margin-left: 5px;
+}
 
+ footer a {
+        color: var(--accent-color);
+    }
 
 
 }
@@ -350,6 +433,16 @@ footer {
  * 5. MEDIA QUERIES (Larger Screens - Desktop Layout)
  *************************************************/
 @media screen and (min-width: 768px) {
+    .vehicle-details-container {
+        flex-wrap: nowrap; /* Forces side-by-side */
+    }
+    .detail-image {
+        width: 40%;
+    }
+    .detail-info {
+        width: 60%;
+    }
+
   #site-container {
         width: 95%;
     }
@@ -476,11 +569,14 @@ footer {
         margin-top: 10px;
     }
 
-
     footer {
     padding: 15px 0;
     border-top: 1px solid var(--text-light);
     margin-top: 20px;
     margin-left: 20px;
-}
+    }
+
+    footer a {
+        color: var(--accent-color);
+    }
 }

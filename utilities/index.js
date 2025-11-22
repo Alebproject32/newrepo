@@ -59,3 +59,47 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+/* **************************************
+ * Build the single vehicle detail view HTML
+ * ************************************ */
+Util.buildDetailsHTML = async function(vehicle) {
+    let detailHTML = '<div id="vehicle-detail-view">';
+    
+    // Main content.
+    detailHTML += '<div class="vehicle-details-container">'; 
+
+    // size image.
+    detailHTML += `<img src="${vehicle.inv_image}" alt="${vehicle.inv_make} ${vehicle.inv_model} image" class="detail-image">`;
+
+    // Container of information
+    detailHTML += '<div class="detail-info">'; 
+    
+    // Prominent Information
+    detailHTML += `<h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>`;
+    
+    // The Price.
+    detailHTML += `<p class="price-detail">Price: **$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}**</p>`; 
+
+    detailHTML += '<ul class="detail-list">';
+    
+    // The year.
+    detailHTML += `<li><span class="label">Year:</span> ${vehicle.inv_year}</li>`;
+
+    // (The mileage must display with proper place value commas.)
+    detailHTML += `<li><span class="label">Mileage:</span> ${new Intl.NumberFormat('en-US').format(vehicle.inv_mileage)}</li>`; 
+    
+    // (All descriptive data must also be displayed, and following the image example).
+    detailHTML += `<li><span class="label">Description:</span> ${vehicle.inv_description}</li>`;
+    
+    
+    detailHTML += `<li><span class="label">Color:</span> ${vehicle.inv_color}</li>`;
+    detailHTML += `<li><span class="label">Number of Owners:</span> ${vehicle.inv_owners}</li>`;
+    
+    detailHTML += '</ul>';
+    detailHTML += '</div>'; 
+    detailHTML += '</div>'; 
+    detailHTML += '</div>'; 
+    
+    return detailHTML;
+}

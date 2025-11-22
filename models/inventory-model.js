@@ -5,6 +5,15 @@ const pool = require("../database/")
  * ************************** */
 async function getClassifications(){
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+  /* // My function to find the error
+  try {
+    // Intentional error adding "Z" at the last name of table
+    const data = await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+    return data.rows;
+  } catch (error) {
+    console.error("Error in getClassifications:", error);
+    throw error; // send the error message again.
+  } */
 }
 
 module.exports = {getClassifications}
@@ -27,4 +36,22 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId};
+/* ***************************
+ * Get inventory item by inventory_id
+ * ************************** */
+async function getInventoryByInvId(inv_id) {
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.inventory
+      WHERE inv_id = $1`,
+      [inv_id]
+    )
+    return data.rows[0]
+  } catch (error) {
+    console.error("getInventoryByInvId error " + error)
+    throw error 
+  }
+}
+
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryByInvId};
