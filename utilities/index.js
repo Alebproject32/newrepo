@@ -87,8 +87,19 @@ Util.buildDetailsHTML = async function(vehicle) {
     detailHTML += `<li><span class="label">Year:</span> ${vehicle.inv_year}</li>`;
 
     // (The mileage must display with proper place value commas.)
-    detailHTML += `<li><span class="label">Mileage:</span> ${new Intl.NumberFormat('en-US').format(vehicle.inv_mileage)}</li>`; 
-    
+    const rawMileage = vehicle.inv_miles;
+    let formattedMileage;
+
+    if (rawMileage && !isNaN(rawMileage)) {
+        
+        formattedMileage = new Intl.NumberFormat('en-US').format(rawMileage);
+    } else {
+        
+        formattedMileage = 'N/A';
+    }
+ 
+    detailHTML += `<li><span class="label">Mileage:</span> ${formattedMileage}</li>`;
+
     // (All descriptive data must also be displayed, and following the image example).
     detailHTML += `<li><span class="label">Description:</span> ${vehicle.inv_description}</li>`;
     
