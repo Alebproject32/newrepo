@@ -60,7 +60,7 @@ img {
 .main-content img {
     max-width: 90%; 
     display: block;
-    margin: 5 auto;
+    margin: 5px auto;
 }
 
 .main-content-error {
@@ -211,7 +211,7 @@ img {
 .detail-list li {
     padding: 8px 0;
     border-bottom: 1px dashed #eee;
-    border-color: solid var(--text-dark);
+    border-color: var(--text-dark);
     background-color: var(--text-light);
     border-radius: 5px;
     margin: 5px;
@@ -423,7 +423,7 @@ footer {
 }
 
  footer a {
-        color: var(--accent-color);
+        color: var(--second-color);
     }
 
 
@@ -577,6 +577,6 @@ footer {
     }
 
     footer a {
-        color: var(--accent-color);
+        color: var(--second-color);
     }
 }
