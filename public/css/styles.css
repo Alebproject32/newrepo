@@ -60,7 +60,7 @@ img {
 .main-content img {
     max-width: 90%; 
     display: block;
-    margin: 5px auto;
+    margin: 5px;
 }
 
 .main-content-error {
@@ -424,6 +424,7 @@ footer {
 
  footer a {
         color: var(--second-color);
+        font-weight: bold;
     }
 
 
@@ -578,5 +579,6 @@ footer {
 
     footer a {
         color: var(--second-color);
+        font-weight: bold;
     }
 }
