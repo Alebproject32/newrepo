@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1 class="add-inventory-h1"><%= title %></h1>
+
+      <!-- Flash Messages -->
+      <%- messages() %> <% if (errors) { %>
+      <ul class="notice">
+        <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <div class="form-container">
+        <form id="addInventoryForm" action="/inv/add-inventory" method="post">
+          <!-- Classification -->
+          <div class="input-group">
+            <label for="classificationList">Classification:</label>
+            <%- classificationList %>
+          </div>
+
+          <!-- Make -->
+          <div class="input-group">
+            <label for="inv_make">Make:</label>
+            <input
+              type="text"
+              id="inv_make"
+              name="inv_make"
+              required
+              placeholder="Enter vehicle make"
+              value="<%= locals.inv_make || '' %>"
+            />
+          </div>
+
+          <!-- Model -->
+          <div class="input-group">
+            <label for="inv_model">Model:</label>
+            <input
+              type="text"
+              id="inv_model"
+              name="inv_model"
+              required
+              placeholder="Enter vehicle model"
+              value="<%= locals.inv_model || '' %>"
+            />
+          </div>
+
+          <!-- Description -->
+          <div class="input-group">
+            <label for="inv_description">Description:</label>
+            <textarea
+              id="inv_description"
+              name="inv_description"
+              required
+              placeholder="Enter vehicle description"
+              rows="4"
+            >
+<%= locals.inv_description || '' %></textarea
+            >
+          </div>
+
+          <!-- Image Path -->
+          <div class="input-group">
+            <label for="inv_image">Image Path:</label>
+            <input
+              type="text"
+              id="inv_image"
+              name="inv_image"
+              required
+              placeholder="/images/vehicles/no-image.jpg"
+              value="<%= locals.inv_image || '/images/vehicles/no-image.jpg' %>"
+            />
+          </div>
+
+          <!-- Thumbnail Path -->
+          <div class="input-group">
+            <label for="inv_thumbnail">Thumbnail Path:</label>
+            <input
+              type="text"
+              id="inv_thumbnail"
+              name="inv_thumbnail"
+              required
+              placeholder="/images/vehicles/no-image-tn.jpg"
+              value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.jpg' %>"
+            />
+          </div>
+
+          <!-- Price -->
+          <div class="input-group">
+            <label for="inv_price">Price:</label>
+            <input
+              type="number"
+              id="inv_price"
+              name="inv_price"
+              required
+              step="0.01"
+              min="0"
+              placeholder="Enter price"
+              value="<%= locals.inv_price || '' %>"
+            />
+          </div>
+
+          <!-- Year -->
+          <div class="input-group">
+            <label for="inv_year">Year:</label>
+            <input
+              type="number"
+              id="inv_year"
+              name="inv_year"
+              required
+              min="1900"
+              max="2030"
+              placeholder="Enter year"
+              value="<%= locals.inv_year || '' %>"
+            />
+          </div>
+
+          <!-- Miles -->
+          <div class="input-group">
+            <label for="inv_miles">Miles:</label>
+            <input
+              type="number"
+              id="inv_miles"
+              name="inv_miles"
+              required
+              min="0"
+              placeholder="Enter miles"
+              value="<%= locals.inv_miles || '' %>"
+            />
+          </div>
+
+          <!-- Color -->
+          <div class="input-group">
+            <label for="inv_color">Color:</label>
+            <input
+              type="text"
+              id="inv_color"
+              name="inv_color"
+              required
+              placeholder="Enter color"
+              value="<%= locals.inv_color || '' %>"
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">Add Inventory</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

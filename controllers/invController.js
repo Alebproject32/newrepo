@@ -70,5 +70,154 @@ invCont.buildByInvId = async function (req, res, next) {
   }
 }
 
+/* ***************************
+ * Build management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav()
+    res.render("./inventory/management", {
+      title: "Vehicle Management",
+      nav,
+      errors: null,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/* ***************************
+ * Build add classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav()
+    res.render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/* ***************************
+ * Add new classification
+ * ************************** */
+invCont.addClassification = async function (req, res, next) {
+  try {
+    const { classification_name } = req.body
+    let nav = await utilities.getNav()
+
+    // Insert classification
+    const result = await invModel.addClassification(classification_name)
+
+    if (result) {
+      req.flash("notice", `Classification "${classification_name}" was successfully added.`)
+      res.redirect("/inv")
+    } else {
+      req.flash("notice", "Sorry, adding classification failed.")
+      res.status(501).render("./inventory/add-classification", {
+        title: "Add New Classification",
+        nav,
+        errors: null,
+      })
+    }
+  } catch (error) {
+    console.error("Add classification error:", error)
+    let nav = await utilities.getNav()
+    req.flash("notice", "An error occurred while adding classification.")
+    res.status(500).render("./inventory/add-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+    })
+  }
+}
+
+/* ***************************
+ * Build add inventory view
+ * ************************** */
+invCont.buildAddInventory = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList()
+    
+    res.render("./inventory/add-inventory", {
+      title: "Add New Inventory",
+      nav,
+      classificationList,
+      errors: null,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/* ***************************
+ * Add new inventory
+ * ************************** */
+invCont.addInventory = async function (req, res, next) {
+  try {
+    const {
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color
+    } = req.body
+
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(classification_id)
+
+    // Insert inventory
+    const result = await invModel.addInventory(
+      classification_id,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color
+    )
+
+    if (result) {
+      req.flash("notice", `Vehicle ${inv_make} ${inv_model} was successfully added.`)
+      res.redirect("/inv")
+    } else {
+      req.flash("notice", "Sorry, adding vehicle failed.")
+      res.status(501).render("./inventory/add-inventory", {
+        title: "Add New Inventory",
+        nav,
+        classificationList,
+        errors: null,
+        ...req.body // Pass all form data back for sticky form
+      })
+    }
+  } catch (error) {
+    console.error("Add inventory error:", error)
+    let nav = await utilities.getNav()
+    let classificationList = await utilities.buildClassificationList(req.body.classification_id)
+    
+    req.flash("notice", "An error occurred while adding vehicle.")
+    res.status(500).render("./inventory/add-inventory", {
+      title: "Add New Inventory",
+      nav,
+      classificationList,
+      errors: null,
+      ...req.body // Pass all form data back for sticky form
+    })
+  }
+}
+
 
 module.exports = invCont

@@ -1,8 +1,6 @@
 <!-- 
   The registration view for creating new user accounts.
-  It uses the title passed from the controller and displays a flash message area.
-  Form fields adhere to the "Data Trail" convention (matching database fields).
-  Includes client-side validation patterns for password requirements.
+  Includes HTML5 validation for all fields.
 -->
 <% if (title) { %>
 <h1 class="registration-h1"><%= title %></h1>
@@ -18,32 +16,26 @@
 <% } %>
 
 <div class="registration-container">
-  <!-- Registration Form -->
   <form
     id="registrationForm"
     action="/account/register"
     method="post"
     class="registration-form"
   >
-    <!-- First Name Field CORREGIDO -->
+    <!-- First Name Field -->
     <div class="input-group">
       <label for="accountFirstName">First name:</label>
       <input
         type="text"
         id="accountFirstName"
         name="account_firstname"
-        required
         placeholder="Enter your first name"
-        <%
-        if
-        (locals.account_firstname)
-        {
-        %
+        value="<%= locals.account_firstname || '' %>"
+        required
       />
-      value="<%= locals.account_firstname %>" <% } %> />
     </div>
 
-    <!-- Last Name Field CORREGIDO -->
+    <!-- Last Name Field -->
     <div class="input-group">
       <label for="accountLastName">Last name:</label>
       <input
@@ -52,16 +44,11 @@
         name="account_lastname"
         required
         placeholder="Enter your last name"
-        <%
-        if
-        (locals.account_lastname)
-        {
-        %
+        value="<%= locals.account_lastname || '' %>"
       />
-      value="<%= locals.account_lastname %>" <% } %> />
     </div>
 
-    <!-- Email Address Field CORREGIDO -->
+    <!-- Email Field -->
     <div class="input-group">
       <label for="accountEmail">Email address:</label>
       <input
@@ -69,24 +56,19 @@
         id="accountEmail"
         name="account_email"
         required
-        placeholder="Enter your email"
+        placeholder="Enter your email address"
         title="Valid email address is required (e.g., name@example.com)"
-        <%
-        if
-        (locals.account_email)
-        {
-        %
+        value="<%= locals.account_email || '' %>"
       />
-      value="<%= locals.account_email %>" <% } %> />
     </div>
 
-    <!-- Password Field (este estaba bien) -->
+    <!-- Password Field with Validation -->
     <div class="input-group">
       <label for="accountPassword">Password:</label>
-      <span class="password-info">
-        Passwords must be at least 12 characters and contain at least 1 number,
-        1 capital letter, and 1 special character.
-      </span>
+
+      <!-- Password Requirements Info -->
+      <div class="password-requirements"></div>
+
       <div class="password-input-wrapper">
         <input
           type="password"
@@ -99,9 +81,13 @@
         />
         <span class="show-hide-btn" id="passwordToggle">Show</span>
       </div>
+      <strong>Password Requirements:</strong>
+      <span
+        >Passwords must be at least 12 characters and contain at least 1 number,
+        1 capital letter, and 1 special character.</span
+      >
     </div>
 
-    <!-- Submit Button -->
     <button type="submit" class="btn-register">Register</button>
   </form>
 </div>
