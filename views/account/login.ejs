@@ -1,0 +1,60 @@
+<!-- 
+  The login view for user authentication.
+  It uses the title passed from the controller and displays a flash message area.
+  The form fields follow the "Data Trail" convention, matching the database fields.
+-->
+<% if (title) { %>
+<h1 class="login-h1"><%= title %></h1>
+<% } else { res.redirect('/') } %>
+
+<!-- Flash Messages container -->
+<%- messages() %>
+
+<div class="login-container">
+  <!-- Login Form -->
+  <form
+    id="loginForm"
+    action="/views/account/login.ejs"
+    method="post"
+    class="login-form"
+  >
+    <div class="input-group">
+      <label for="accountEmail">Email:</label>
+      <input
+        type="email"
+        id="accountEmail"
+        name="account_email"
+        required
+        placeholder="Enter your email"
+        title="Valid email address is required (e.g., name@example.com)"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="accountPassword">Password:</label>
+      <input
+        type="password"
+        id="accountPassword"
+        name="account_password"
+        required
+        placeholder="Enter your password"
+        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}"
+        title="Must contain at least one number, one uppercase and lowercase letter, one special character, and at least 12 or more characters"
+      />
+    </div>
+
+    <button type="submit" class="btn-primary">Login</button>
+  </form>
+
+  <!-- Registration Link -->
+  <div class="register-link">
+    <p>
+      No account?
+      <a
+        href="/account/registration"
+        title="Click to request the registration view"
+        >Sign-up</a
+      >
+    </p>
+  </div>
+</div>

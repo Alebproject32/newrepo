@@ -7,7 +7,9 @@ const baseController = {}
 baseController.buildHome = async function(req, res, next){
   const nav = await Util.getNav()
   res.render("index", {title: "Home", nav})
+  req.flash("notice", "This is a flash message.")
 }
+
 
 /* ***************************
  * Intentional Error Trigger

@@ -15,6 +15,11 @@
   --text-dark: #333;
   --text-light: #f8f8f8;
   --danger-color: #DC143C;
+  --dark-container:#2c3e50; /* Dark blue two*/
+  --four-color: #ecf0f1;
+  --hover-color: #2980b9;
+  --fifth-color: #39FF14; /* neon green */
+  --green-button: #27ae60;
 }
 body {
     font-family: Arial, sans-serif; /* Professional, easy to read */
@@ -39,6 +44,235 @@ h1 {
     margin: 75px auto;
     border-radius: 5px;
 }
+
+/* Base Container Styling */
+  .login-container {
+    max-width: 400px;
+    margin: 2rem auto; /* 1rem */
+    padding: 30px;
+    background-color: var(--dark-container); /* Dark blue/grey background for the form card */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: var(--four-color); /* Light text color */
+  }
+
+  .login-h1 {
+    text-align: center;
+    margin: 1rem;
+    color: var(--dark-container); /* Ensure title outside the card uses standard text color */
+    margin-bottom: 10px;
+  }
+
+  /* Form Styling */
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    color: var(--text-light);
+  }
+
+  .input-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+  }
+
+  .input-group input {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: var(--text-light); /* Slightly lighter input background */
+    color: var(--text-dark);
+    transition: box-shadow 0.3s;
+  }
+
+  .input-group input:focus {
+    outline: none;
+    box-shadow: var(--text-light); /*0 0 0 3px rgba(52, 152, 219, 0.5), Blue glow on focus */
+  }
+
+  /* Button Styling */
+  .btn-primary {
+    padding: 12px;
+    background-color: var(--danger-color); /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+
+  button.btn-primary {
+    background-color: var(--accent-color);
+  }
+
+  button.btn-primary:hover {
+    background-color: var(--fifth-color);
+    color: var(--dark-container);
+  }
+
+
+  .btn-primary:hover {
+    background-color: var(--fifth-color); /* Darker blue on hover */
+    transform: translateY(-1px);
+  }
+
+  /* Register Link Styling */
+  .register-link {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.9em;
+  }
+
+  .register-link a {
+    color: #3498db; /* Matching blue link color */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .register-link a:hover {
+    color: var(--fifth-color);
+  }
+
+  /* Flash Message Styling (Assuming your global styles don't cover it) */
+  /* This targets the EJS message output if it's rendered as a simple list or div */
+  .alert-message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  /* Example specific styles for errors/notices */
+  .error, .notice {
+    background-color: #e74c3c; /* Red for errors/notices */
+    color: white;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+  }
+
+  .registration-container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: 450px;
+    margin: 2rem auto; /* 1rem */
+    padding: 1rem;
+    background-color: #2c3e50; /* Dark blue/grey background for the form card */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #ecf0f1; /* Light text color */
+  }
+
+  .registration-h1 {
+    text-align:center;
+    margin: 1rem;
+    color: #2c3e50; /* Ensure title outside the card uses standard text color */
+    margin-bottom: 20px;
+  }
+
+  /* Form Styling */
+  .registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .input-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.9em;
+  }
+
+  .input-group input {
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    background-color: #34495e; /* Slightly lighter input background */
+    color: #ecf0f1;
+    transition: box-shadow 0.3s;
+  }
+
+  .input-group input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Blue glow on focus */
+  }
+
+  /* Password Info and Toggle */
+  .password-info {
+    font-size: 0.8em;
+    color: #bdc3c7; /* Lighter grey for info text */
+    margin-bottom: 5px;
+  }
+
+  .password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .password-input-wrapper input {
+    flex-grow: 1;
+    padding-right: 60px; /* Make space for the button */
+  }
+
+  .show-hide-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 5px;
+    user-select: none; /* Prevent text selection */
+  }
+
+  /* Button Styling */
+  .btn-register {
+    padding: 12px;
+    background-color: var(--green-button); /* Green button for registration */
+    color: var(--primary-light);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.1s;
+  }
+
+  .btn-register:hover {
+    background-color: #229954; /* Darker green on hover */
+    transform: translateY(-1px);
+  }
+
+  /* Flash Message Styling (assuming global styles don't cover it) */
+  .error, .notice {
+    background-color: #e74c3c; /* Red for errors/notices */
+    color: white;
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+    text-align: center;
+  }
 
 /* Utility to Center Main Content */
 #site-container {
@@ -95,6 +329,30 @@ img {
 .professional-note {
     margin-left: 110px;
 }
+/* --------------------------------------
+ * Styles for Flash Messages (express-messages)
+ * -------------------------------------- */
+
+/* Estilos para el contenedor UL principal */
+ ul.messages li {
+    list-style: none; 
+    padding: 0;
+    margin: 1rem 0;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    color:  var(--danger-color);
+    font-weight: bold;
+}
+
+/* Estilos para cada elemento LI */
+messages {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+}
+
 
 /*********************************
  * DELOREAN HERO SECTION
@@ -408,6 +666,30 @@ a {
         width: 100%;
         max-height: 100px;
     }
+
+    /* Base Container Styling */
+  .login-container {
+    max-width: 400px;
+    margin: 1rem; /*  */
+    padding: 30px;
+    background-color: var(--dark-container); /* Dark blue/grey background for the form card */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: var(--four-color); /* Light text color */
+  }
+
+  .registration-container {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    max-width: 450px;
+    margin: 1rem; 
+    padding: 1rem;
+    background-color: #2c3e50; /* Dark blue/grey background for the form card */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    color: #ecf0f1; /* Light text color */
+  }
 
 /*************************************************
  * 4. FOOTER STYLES

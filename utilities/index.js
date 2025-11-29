@@ -1,6 +1,15 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
 
+/* ***********************
+ * Middleware to handle errors in asynchronous routes
+ * ***********************
+ * This function wraps any asynchronous controller function.
+ * If the wrapped function throws an error, next(error) is automatically called.
+ * *********************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
@@ -25,8 +34,6 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-module.exports = Util
-
 /* **************************************
 * Build the classification view HTML
 * ************************************ */
@@ -36,7 +43,7 @@ Util.buildClassificationGrid = async function(data){
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => { 
       grid += '<li>'
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
+      grid += 	'<a href="../../inv/detail/'+ vehicle.inv_id 
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
@@ -114,3 +121,5 @@ Util.buildDetailsHTML = async function(vehicle) {
     
     return detailHTML;
 }
+
+module.exports = Util
