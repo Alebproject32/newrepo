@@ -3,11 +3,19 @@
   It uses the title passed from the controller and displays a flash message area.
   Form fields adhere to the "Data Trail" convention (matching database fields).
   Includes client-side validation patterns for password requirements.
---><% if (title) { %>
+-->
+<% if (title) { %>
 <h1 class="registration-h1"><%= title %></h1>
-<% } else { res.redirect('/') } %>
+<% } %>
 
-<!-- Flash Messages container --><%- messages() %>
+<!-- Flash Messages container -->
+<%- messages() %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
 
 <div class="registration-container">
   <!-- Registration Form -->
@@ -17,7 +25,7 @@
     method="post"
     class="registration-form"
   >
-    <!-- First Name Field -->
+    <!-- First Name Field CORREGIDO -->
     <div class="input-group">
       <label for="accountFirstName">First name:</label>
       <input
@@ -26,10 +34,16 @@
         name="account_firstname"
         required
         placeholder="Enter your first name"
+        <%
+        if
+        (locals.account_firstname)
+        {
+        %
       />
+      value="<%= locals.account_firstname %>" <% } %> />
     </div>
 
-    <!-- Last Name Field -->
+    <!-- Last Name Field CORREGIDO -->
     <div class="input-group">
       <label for="accountLastName">Last name:</label>
       <input
@@ -38,10 +52,16 @@
         name="account_lastname"
         required
         placeholder="Enter your last name"
+        <%
+        if
+        (locals.account_lastname)
+        {
+        %
       />
+      value="<%= locals.account_lastname %>" <% } %> />
     </div>
 
-    <!-- Email Address Field -->
+    <!-- Email Address Field CORREGIDO -->
     <div class="input-group">
       <label for="accountEmail">Email address:</label>
       <input
@@ -51,17 +71,22 @@
         required
         placeholder="Enter your email"
         title="Valid email address is required (e.g., name@example.com)"
+        <%
+        if
+        (locals.account_email)
+        {
+        %
       />
+      value="<%= locals.account_email %>" <% } %> />
     </div>
 
-    <!-- Password Field -->
+    <!-- Password Field (este estaba bien) -->
     <div class="input-group">
       <label for="accountPassword">Password:</label>
-      <!-- Password requirements tooltip and toggle button --><span
-        class="password-info"
-        >Passwords must be at least 12 characters and contain at least 1 number,
-        1 capital letter, and 1 special character.</span
-      >
+      <span class="password-info">
+        Passwords must be at least 12 characters and contain at least 1 number,
+        1 capital letter, and 1 special character.
+      </span>
       <div class="password-input-wrapper">
         <input
           type="password"
@@ -69,16 +94,15 @@
           name="account_password"
           required
           placeholder="Enter your password"
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}"
+          pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
           title="Must contain at least one number, one uppercase and lowercase letter, one special character, and at least 12 or more characters"
         />
         <span class="show-hide-btn" id="passwordToggle">Show</span>
       </div>
     </div>
 
-    <!-- Submit Button --><button type="submit" class="btn-register">
-      Register
-    </button>
+    <!-- Submit Button -->
+    <button type="submit" class="btn-register">Register</button>
   </form>
 </div>
 
@@ -87,13 +111,15 @@
   const passwordInput = document.getElementById("accountPassword");
   const passwordToggleButton = document.getElementById("passwordToggle");
 
-  passwordToggleButton.addEventListener("click", function () {
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      passwordToggleButton.textContent = "Hide";
-    } else {
-      passwordInput.type = "password";
-      passwordToggleButton.textContent = "Show";
-    }
-  });
+  if (passwordToggleButton && passwordInput) {
+    passwordToggleButton.addEventListener("click", function () {
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        passwordToggleButton.textContent = "Hide";
+      } else {
+        passwordInput.type = "password";
+        passwordToggleButton.textContent = "Show";
+      }
+    });
+  }
 </script>

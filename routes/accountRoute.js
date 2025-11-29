@@ -7,4 +7,7 @@ router.get("/", utilities.handleErrors(accountController.buildLogin))
 
 router.get("/registration", utilities.handleErrors(accountController.buildRegistration))
 
+// route post to register a new account (the form) 
+router.post('/register', utilities.handleErrors(accountController.registerAccount))
+
 module.exports = router;

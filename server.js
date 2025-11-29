@@ -2,44 +2,51 @@
 // * This server.js file is the primary file of the 
 // * application. It is used to control the project.
 // *******************************************/
+
 /* ***********************
  * Require Statements
  *************************/
-const session = require("express-session")
-const pool = require('./database/')
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
-const Util = require("./utilities/")
+const session = require("express-session")
+const flash = require("connect-flash")
 const env = require("dotenv").config()
-const app = express()
-const static = require("./routes/static") 
-const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute");
+const pool = require('./database/')
+const Util = require("./utilities/")
 
-// *************************
-// * Middleware Requires
-// *************************
-const flash = require("connect-flash") 
-const expressMessages = require("express-messages") 
-// NEW: Account Route required to handle user login/registration requests
+// Create Express application
+const app = express()
+
+/* ***********************
+ * Middleware Requires
+ *************************/
+const staticRoutes = require("./routes/static")
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
 
+/* ***************************************
+ * View Engine and Templates
+ *****************************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
 
 /* ***************************************
  * Middleware for static files
  *****************************************/
-app.use(express.static("public")) // A new path to explore the develop before run in Render
+app.use(express.static("public"))
 
-/* ************************** * View Engine and Templates
- ****************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // Sets the default EJS layout
+/* ***************************************
+ * Body Parsing Middleware
+ *****************************************/
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 /* ***********************
  * Session Middleware
- * ************************/
- app.use(session({
+ *************************/
+app.use(session({
   store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
@@ -50,15 +57,12 @@ app.set("layout", "./layouts/layout") // Sets the default EJS layout
   name: 'sessionId',
 }))
 
-// *********************************
-// * Flash Message Middleware (CORRECTED)
-// * Uses connect-flash to store messages and express-messages to make 
-// * the messages() function available to all views via res.locals.
-// *********************************
-app.use(flash()) // 1. Initializes connect-flash
+/* *********************************
+ * Flash Message Middleware
+ *********************************/
+app.use(flash())
 app.use(function(req, res, next){
-  // 2. Makes the messages() function available to all EJS views via res.locals
-  res.locals.messages = expressMessages(req, res)
+  res.locals.messages = require('express-messages')(req, res)
   next()
 })
 
@@ -66,67 +70,73 @@ app.use(function(req, res, next){
  * Routes
  *************************/
 
-// Static Route
-app.use(static)
+// Static Routes
+app.use(staticRoutes)
 
-// Index route
-app.get("/", baseController.buildHome) 
+// Index Route
+app.get("/", baseController.buildHome)
 
-// Inventory routes
+// Inventory Routes
 app.use("/inv", inventoryRoute)
 
-// NEW ACCOUNT ROUTE: Connects the account router
-// Base path for all account routes will be /account
+// Account Routes
 app.use("/account", accountRoute)
 
-// Route to intentionally trigger a 500 error (placed after main routes)
+// Route to intentionally trigger a 500 error (for testing)
 app.get("/error", baseController.trigger500Error)
 
-
-// File Not Found Route - must be last route in list
-// This handles 404 errors and passes them to the main error handler below
+/* ***********************
+ * 404 Error Handler
+ * Must be the last route in the list
+ *************************/
 app.use(async (req, res, next) => {
-  next({status: 404, message: 'Sorry, You are lost. No, we appear to have lost that page.'})
+  next({
+    status: 404, 
+    message: 'Sorry, the page you are looking for could not be found.'
+  })
 })
 
 /* ***********************
- * Local Server Information
- * Values from .env (environment) file
+ * Express Error Handler
+ * Place after all other middleware and routes
  *************************/
-const port = process.env.PORT || process.env.LOCAL_PORT || 3000;
-const host = process.env.HOST || '0.0.0.0';
-
-/* ***********************
-* Express Error Handler
-* This catches all errors passed via next(error) and those from the 404 route.
-* Place after all other middleware and routes.
-*************************/
 app.use(async (err, req, res, next) => {
-  let nav = await Util.getNav()
-  
-  // Log the error to the console for debugging
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  
-  // Determine status and set a user-friendly message
-  const status = err.status || 500
-  let message = err.message
-  
-  // If it's a 500 status (internal server error), display a general message to the user
-  if (status == 500) {
-    message = 'Oh no! There was a crash. Maybe try a different route?'
-  }
+  let nav = await Util.getNav()
+  
+  // Log the error for debugging
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  console.error(err.stack) // Full error stack for debugging
+  
+  // Determine status code and user-friendly message
+  const status = err.status || 500
+  let message = err.message
+  
+  // For 500 errors, show generic message to users
+  if (status === 500) {
+    message = 'Oh no! There was a server error. Please try again later or contact support.'
+  }
 
-  res.render("./errors/error", {
-    title: `Error ${status}`, // Title includes the status code
-    message: message, // Use the user-friendly message
-    nav,
-    layout: false, // Prevents EJS Layout from being used for the error page
-  })
+  // Render error page
+  res.status(status).render("./errors/error", {
+    title: `Error ${status}`,
+    message: message,
+    nav,
+    layout: false, // Disable layout for error pages
+  })
 })
 
 /* ***********************
- * Log statement to confirm server operation
+ * Server Configuration
  *************************/
-app.listen(port, () => {
-  console.log(`app listening on ${host}:${port}`)
+const port = process.env.PORT || 3000
+const host = process.env.HOST || '0.0.0.0'
+
+/* ***********************
+ * Start Server
+ *************************/
+app.listen(port, host, () => {
+  console.log(`Server is running on ${host}:${port}`)
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
 })
+
+module.exports = app
