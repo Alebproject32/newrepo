@@ -7,7 +7,8 @@
 <% } %>
 
 <!-- Flash Messages container -->
-<%- messages() %> <% if (errors) { %>
+<%- messages() %> <% if (errors && errors.array && errors.array().length > 0) {
+%>
 <ul class="notice">
   <% errors.array().forEach(error => { %>
   <li><%= error.msg %></li>

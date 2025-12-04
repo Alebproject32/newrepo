@@ -5,16 +5,22 @@
 -->
 <% if (title) { %>
 <h1 class="login-h1"><%= title %></h1>
-<% } else { res.redirect('/') } %>
+<% } %>
 
 <!-- Flash Messages container -->
-<%- messages() %>
+<%- messages() %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
 
 <div class="login-container">
   <!-- Login Form -->
   <form
     id="loginForm"
-    action="/views/account/login.ejs"
+    action="/views/account/login"
     method="post"
     class="login-form"
   >
@@ -27,6 +33,7 @@
         placeholder="Enter your email"
         title="Valid email address is required (e.g., name@example.com)"
         required
+        value="<%= locals.account_email || '' %>"
       />
     </div>
 

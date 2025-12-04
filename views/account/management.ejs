@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <%- include('../partials/header') %> <%- include('../partials/navigation')
+    %>
+
+    <main>
+      <div id="wrapper">
+        <h1 class="account-management-h1"><%= title %></h1>
+
+        <!-- Flash Messages -->
+        <%- messages() %> <% if (errors) { %>
+        <ul class="notice">
+          <% errors.array().forEach(error => { %>
+          <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
+        <% } %>
+
+        <div class="account-management-container">
+          <div class="welcome-message">
+            <h2>Welcome, <%= accountData.account_firstname %>!</h2>
+            <p>You're logged in.</p>
+            <p>Email: <%= accountData.account_email %></p>
+            <p>Account Type: <%= accountData.account_type %></p>
+          </div>
+
+          <div class="account-actions">
+            <!-- Aquí agregarás más opciones después -->
+            <p>Account management options will appear here.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <%- include('../partials/footer') %>
+  </body>
+</html>
