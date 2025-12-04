@@ -76,6 +76,10 @@ h1 {
     color: var(--text-light);
   }
 
+  #accountPassword {
+    color: var(--text-dark);
+  }
+
   .input-group label {
     font-weight: bold;
     margin-bottom: 8px;
@@ -318,7 +322,7 @@ footer a:hover {
     font-weight: bold;
     margin-bottom: 8px;
     font-size: 0.9em;
-    color: var(--primary-dark);
+    color: var(--four-color);
   }
 
   .input-group input {
@@ -326,7 +330,7 @@ footer a:hover {
     border: none;
     border-radius: 6px;
     font-size: 1em;
-    background-color: #34495e; /* Slightly lighter input background */
+    background-color: var(--four-color); /* Slightly lighter input background */
     color: var(--primary-light);
     transition: box-shadow 0.3s;
   }
@@ -366,15 +370,6 @@ input:required:valid {
 }
 
 /* Password Requirements Styling */
-.password-requirements {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
-  padding: 12px;
-  margin-bottom: 10px;
-  font-size: 0.9em;
-}
-
 .password-requirements strong {
   display: block;
   margin-bottom: 8px;
@@ -421,6 +416,14 @@ input:required:valid {
     flex-grow: 1;
     padding-right: 60px; /* Make space for the button */
   }
+
+  span {
+    font-size: 0.8rem;
+    text-align: justify;
+    margin-top: 8px;
+  }
+
+
 
   .show-hide-btn {
     position: absolute;
@@ -812,13 +815,17 @@ nav {
 }
 .upgrades-list, .upgrade-item {
       background-color: var(--primary-dark); 
-      border: 1px solid var(--accent-color);
       padding: 5px;
       text-align: center;
       display: grid;
       grid-template-columns: 1fr 1fr;
       align-items: center;
   }
+
+  .upgrade-item a {
+    color: var(--four-color);
+  }
+
 
   .reviews-section ul li {
       margin-bottom: 25px;
@@ -893,6 +900,10 @@ a {
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
     color: #ecf0f1; /* Light text color */
+  }
+
+  #input-group .label {
+    color: var(--four-color);
   }
 
 /*************************************************

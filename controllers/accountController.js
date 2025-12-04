@@ -15,7 +15,7 @@ async function buildLogin(req, res, next) {
       title: "Login",
       nav,
       errors: null,
-      account_email: "", // Asegura que se pasa la variable
+      account_email: "", 
     })
   } catch (error) {
     next(error)
@@ -114,16 +114,16 @@ async function accountLogin(req, res, next) {
     // search user by email
     const accountData = await accountModel.getAccountByEmail(account_email)
     
-    // if user not found
-    //if (!accountData) {
-    //  req.flash("notice", "Please check your credentials and try again.")
-    //  return res.status(400).render("account/login", {
-    //    title: "Login",
-    //    nav,
-    //    errors: null,
-    //    account_email,
-    //  })
-   // }
+    // if user not found, we should handle this gracefully before trying to compare passwords
+    if (!accountData) {
+      req.flash("notice", "Please check your credentials and try again.")
+      return res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      })
+    }
     
     // confirm password
     const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
@@ -159,9 +159,9 @@ async function accountLogin(req, res, next) {
     
     res.cookie("jwt", accessToken, cookieOptions)
     
-    // Change: Guidance to management view
+    // Change: Redirección corregida a la ruta base de la cuenta (¡CRÍTICO!)
     req.flash("notice", "Login successful! Welcome back.")
-    return res.redirect("/account/management")
+    return res.redirect("/account/") // <--- ¡Asegúrate de que el router escuche esta ruta!
     
   } catch (error) {
     console.error("Login error in controller:", error)
@@ -183,33 +183,20 @@ async function buildAccountManagement(req, res, next) {
   try {
     let nav = await utilities.getNav()
     
-    
-    const token = req.cookies.jwt
-    
-    if (!token) {
-      
-      req.flash("notice", "Please log in to access your account.")
-      return res.redirect("/account/login")
-    }
-    
-    // Decoding token
-    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || 'fallback_secret_for_development')
-    
+    // Usamos res.locals.accountData que es inyectada por checkLogin
+    const accountData = res.locals.accountData; 
+
     res.render("account/management", {
       title: "Account Management",
       nav,
       errors: null,
-      accountData: decoded
+      accountData: accountData // Usamos los datos inyectados
     })
   } catch (error) {
     console.error("Account management error:", error)
     
-    // If token expired
-    if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
-      res.clearCookie("jwt") // Limpiar cookie inválida
-      req.flash("notice", "Your session has expired. Please log in again.")
-      return res.redirect("/account/login")
-    }
+    // Ya no necesitamos verificar el token aquí, el middleware checkLogin lo hace.
+    // Este catch ahora es para errores de renderizado o base de datos.
     
     next(error)
   }
