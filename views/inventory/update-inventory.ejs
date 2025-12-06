@@ -8,7 +8,7 @@
   </head>
   <body>
     <main>
-      <h1 class="add-inventory-h1"><%= title %></h1>
+      <h1 class="update-inventory-h1"><%= title %></h1>
 
       <!-- Flash Messages -->
       <%- messages() %> <% if (errors) { %>
@@ -21,7 +21,11 @@
 
       <div class="form-container">
         <!-- ACCIÓN DEL FORMULARIO CAMBIADA a /inv/update -->
-        <form id="editInventoryForm" action="/inv/update" method="post">
+        <form
+          id="buildEditInventory"
+          action="./inventory/update-inventory"
+          method="post"
+        >
           <!-- Classification -->
           <div class="input-group">
             <label for="classificationSelect">Classification:</label>

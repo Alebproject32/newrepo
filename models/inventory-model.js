@@ -1,25 +1,16 @@
 const pool = require("../database/")
 
 /* ***************************
- *  Get all classification data
+ *  Get all classification data
  * ************************** */
 async function getClassifications(){
-  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
-  /* // My function to find the error
-  try {
-    // Intentional error adding "Z" at the last name of table
-    const data = await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
-    return data.rows;
-  } catch (error) {
-    console.error("Error in getClassifications:", error);
-    throw error; // send the error message again.
-  } */
+  // Retorna las filas para que la utilidad pueda procesar los datos
+  const data = await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+  return data
 }
 
-module.exports = {getClassifications}
-
 /* ***************************
- *  Get all inventory items and classification_name by classification_id
+ *  Get all inventory items and classification_name by classification_id
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
   try {
@@ -37,12 +28,16 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 /* ***************************
- * Get inventory item by inventory_id
+ * Get inventory item by inventory_id (Usado para detalles y edición)
  * ************************** */
 async function getInventoryByInvId(inv_id) {
   try {
+    // Consulta para obtener todos los detalles del vehículo, incluyendo inv_miles
     const data = await pool.query(
-      `SELECT * FROM public.inventory
+      `SELECT 
+        inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, 
+        inv_thumbnail, inv_price, inv_miles, inv_color, classification_id 
+      FROM public.inventory
       WHERE inv_id = $1`,
       [inv_id]
     )
@@ -108,6 +103,9 @@ async function addInventory(
   }
 }
 
+/* ***************************
+ * Export all functions
+ * ************************** */
 module.exports = {
   getClassifications, 
   getInventoryByClassificationId, 

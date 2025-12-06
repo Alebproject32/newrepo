@@ -1069,7 +1069,12 @@ footer {
         display: block; 
         margin-top: 10px;
     }
+    #inventoryDisplay a.action-link:last-child {
+    background-color: var(--danger-color); /* Delete (Rojo) */
+    color: var(--second-color);
+  }
 
+    
     footer {
     padding: 15px 0;
     border-top: 1px solid var(--text-light);
@@ -1081,4 +1086,124 @@ footer {
         color: var(--second-color);
         font-weight: bold;
     }
+
 }
+/* =====================================================
+    Inventory Management Table Styles (Nuevos estilos)
+    (Añadidos para la prueba de funcionalidad AJAX)
+=====================================================
+*/
+#inventoryDisplay {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#inventoryDisplay table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+    min-width: 600px;
+}
+
+#inventoryDisplay thead {
+    background-color: var(--primary-dark); /* Dark Teal */
+    color: var(--primary-light);
+}
+
+#inventoryDisplay th, 
+#inventoryDisplay td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+#inventoryDisplay tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#inventoryDisplay tbody tr:hover {
+    background-color: var(--primary-light); /* Light Teal al pasar el ratón */
+}
+
+#inventoryDisplay thead td{
+  color: var(--primary-light);
+}
+#inventoryDisplay td:last-child,
+#inventoryDisplay th:last-child {
+    text-align: center; /* Centrar acciones/botones */
+}
+
+/* Estilo para los botones de la tabla */
+#inventoryDisplay a.action-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#inventoryDisplay tbody td a {
+  color: var(--second-color);
+}
+
+#inventoryDisplay thead tr td {
+  color: var(--primary-light);
+}
+
+#inventoryDisplay a.action-link:first-child {
+    background-color: var(--green-button); /* Edit (Verde) */
+    color: var(--green-button);
+}
+
+#inventoryDisplay a.action-link:last-child {
+    background-color: var(--danger-color); /* Delete (Rojo) */
+    color: var(--second-color);
+}
+
+#inventoryDisplay a.action-link:hover {
+    opacity: 0.8;
+}
+
+noscript {
+  color: var(--primary-light);
+  font-style: italic;
+  margin: 5rem;
+}
+/* Pequeño ajuste para el Select List */
+#classificationList {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    width: 100%;
+    max-width: 400px; /* Limitar el ancho */
+    margin-bottom: 1rem;
+    color: var(--text-dark); /* Asegurar que el texto sea visible */
+    background-color: var(--third-color); /* Fondo blanco */
+}
+
+.management-container h2, p {
+  color: var(--primary-light);
+}
+
+body .main-content-error {
+  background-color: var(--hover-color);
+}
+
+/* Media Query para manejo de tabla en dispositivos pequeños */
+@media (max-width: 768px) {
+    #inventoryDisplay {
+        overflow-x: auto; /* Permitir desplazamiento horizontal en dispositivos pequeños */
+    }
+
+    #inventoryDisplay table {
+        min-width: 700px; /* Asegura que la tabla se mantenga legible */
+    }
+
+  }

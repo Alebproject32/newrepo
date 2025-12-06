@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-
     <main>
       <div id="wrapper">
         <h1 class="management-title"><%= title %></h1>
@@ -30,10 +29,31 @@
               >Add New Vehicle</a
             >
           </div>
+
+          <!-- INVENTORY MANAGEMENT CONTENT -->
+
+          <!-- 1. Heading for Inventory Management -->
+          <h2>Manage Inventory</h2>
+
+          <!-- 2. Instruction Paragraph -->
+          <p>
+            Select a classification from the list to see the items belonging to
+            the classification.
+          </p>
+
+          <!-- 3. Classification Select List -->
+          <%- classificationList %>
+
+          <!-- 4. Empty HTML Table for Inventory Items -->
+          <table id="inventoryDisplay"></table>
+
+          <!-- 5. NoScript Message -->
+          <noscript>JavaScript must be enabled to use this page.</noscript>
         </div>
       </div>
     </main>
 
-    
+    <!-- 6. JavaScript file for AJAX and DOM manipulation -->
+    <script src="../../js/inventory.js"></script>
   </body>
 </html>
