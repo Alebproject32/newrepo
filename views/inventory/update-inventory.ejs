@@ -21,11 +21,7 @@
 
       <div class="form-container">
         <!-- ACCIÓN DEL FORMULARIO CAMBIADA a /inv/update -->
-        <form
-          id="buildEditInventory"
-          action="./inventory/update-inventory"
-          method="post"
-        >
+        <form id="buildEditInventory" action="./inv/update" method="post">
           <!-- Classification -->
           <div class="input-group">
             <label for="classificationSelect">Classification:</label>
@@ -159,7 +155,8 @@
           </div>
 
           <!-- CAMPO OCULTO para inv_id (ESENCIAL para la actualización) -->
-          <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />
+          <input type="hidden" name="inv_id" <% if(locals.inv_id) { % />
+          value="<%= locals.inv_id %>" <% } %>>
 
           <!-- VALOR DEL BOTÓN CAMBIADO a "Update Vehicle" -->
           <button type="submit" class="btn-submit">Update Vehicle</button>

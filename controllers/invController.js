@@ -75,10 +75,10 @@ invCont.buildManagement = async function (req, res, next) {
     try {
         let nav = await utilities.getNav()
         
-        // Llama a la utilidad para construir la lista de clasificación (select list HTML)
+        // Call utility to build the classification list (select list HTML)
         const classificationList = await utilities.buildClassificationList()
 
-        // Renderiza la vista, pasando la lista de clasificaciones
+        // Render the view, passing the classification list
         res.render("./inventory/management", {
             title: "Vehicle Management",
             nav,
@@ -225,13 +225,13 @@ invCont.addInventory = async function (req, res, next) {
 
 /* ***************************
  * Return Inventory by Classification As JSON
- * (Función clave para el AJAX en inventory.js)
+ * (Key function for AJAX in inventory.js)
  * ************************** */
 invCont.getInventoryJSON = async (req, res, next) => {
     const classification_id = parseInt(req.params.classification_id)
     const invData = await invModel.getInventoryByClassificationId(classification_id)
     
-    // Devuelve los datos como JSON o un array vacío si no hay resultados
+    // Return data as JSON or an empty array if no results are found
     if (invData && invData.length > 0) {
         return res.json(invData)
     } else {
@@ -244,8 +244,8 @@ invCont.getInventoryJSON = async (req, res, next) => {
  * ************************** */
 invCont.buildEditInventory = async function (req, res, next) {
     try {
-        // CORRECCIÓN: Usamos req.params.inventoryId para que coincida con la ruta /edit/:inventoryId
-        const inv_id = parseInt(req.params.inv_id) 
+        // CORRECTION: Use req.params.inventoryId to match the route /edit/:inventoryId
+        const inv_id = parseInt(req.params.inventoryId) 
         
         const itemData = await invModel.getInventoryByInvId(inv_id) 
 
@@ -268,7 +268,8 @@ invCont.buildEditInventory = async function (req, res, next) {
         res.render("./inventory/update-inventory", { 
             title: "Edit " + itemName,
             nav,
-            classificationSelect: classificationSelect,
+            // FIX: Changed 'classificationList' back to 'classificationSelect' to match the EJS view
+            classificationSelect: classificationSelect, 
             errors: null,
             // Data fields from the itemData object
             inv_id: itemData.inv_id,
@@ -285,6 +286,78 @@ invCont.buildEditInventory = async function (req, res, next) {
         })
     } catch (error) {
         // Pass the error to the central Express error handler
+        next(error)
+    }
+}
+
+/* ***************************
+ * Update Inventory Data
+ * ************************** */
+invCont.updateInventory = async function (req, res, next) {
+    try {
+        let nav = await utilities.getNav()
+        const {
+            inv_id,
+            inv_make,
+            inv_model,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_year,
+            inv_miles,
+            inv_color,
+            classification_id,
+        } = req.body
+
+        // Call the model function to perform the update
+        const updateResult = await invModel.updateInventory(
+            inv_id,  
+            inv_make,
+            inv_model,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_year,
+            inv_miles,
+            inv_color,
+            classification_id
+        )
+
+        if (updateResult) {
+            const itemName = updateResult.inv_make + " " + updateResult.inv_model
+            req.flash("notice", `The ${itemName} was successfully updated.`)
+            // Redirect to the management view on success
+            res.redirect("/inv/")
+        } else {
+            // Rebuild the classification list with the attempted classification selected
+            const classificationSelect = await utilities.buildClassificationList(classification_id) // Renamed variable locally
+            const itemName = `${inv_make} ${inv_model}`
+            req.flash("notice", "Sorry, the update failed.")
+            
+            // Render the edit view on failure (status 501 - Not Implemented/Server Error)
+            res.status(501).render("./inventory/update-inventory", {
+                title: "Edit " + itemName,
+                nav,
+                // FIX: Use 'classificationSelect' to match the EJS view
+                classificationSelect: classificationSelect, 
+                errors: null, // Errors were handled by the middleware, but passing null for consistency
+                inv_id,
+                inv_make,
+                inv_model,
+                inv_year,
+                inv_description,
+                inv_image,
+                inv_thumbnail,
+                inv_price,
+                inv_miles,
+                inv_color,
+                classification_id
+            })
+        }
+    } catch (error) {
+        console.error("Update inventory error:", error)
         next(error)
     }
 }

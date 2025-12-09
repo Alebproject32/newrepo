@@ -70,10 +70,18 @@ h1 {
     gap: 20px;
   }
 
+  .login-form .input-group label {
+    color: var(--primary-light);
+  }
+
   .input-group {
     display: flex;
     flex-direction: column;
     color: var(--text-light);
+  }
+
+  input#inv_make, #inv_model, #inv_image, #inv_thumbnail, #inv_price, #inv_year, #inv_miles, #inv_color  {
+    color: var(--text-dark);
   }
 
   #accountPassword {
@@ -316,13 +324,15 @@ footer a:hover {
   .input-group {
     display: flex;
     flex-direction: column;
+    margin: 10px;
+    padding: 10px;
   }
 
   .input-group label {
     font-weight: bold;
     margin-bottom: 8px;
     font-size: 0.9em;
-    color: var(--four-color);
+    color: var(--primary-dark);
   }
 
   .input-group input {
@@ -343,6 +353,10 @@ footer a:hover {
   .add-inventory-h1 {
     text-align: center;
     margin: 2rem;
+  }
+
+  .input-group1 {
+    color: var(--primary-light);
   }
 
   .input-group .form-instruction {
@@ -924,6 +938,11 @@ footer {
         font-weight: bold;
     }
 
+    footer p {
+      color: var(--text-dark);
+      text-align: start;
+    }
+
 
 }
 
@@ -1085,6 +1104,11 @@ footer {
     footer a {
         color: var(--second-color);
         font-weight: bold;
+    }
+
+    footer p {
+      color: var(--text-dark);
+      text-align: start;
     }
 
 }

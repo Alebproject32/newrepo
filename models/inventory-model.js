@@ -1,16 +1,16 @@
 const pool = require("../database/")
 
 /* ***************************
- *  Get all classification data
+ * Get all classification data
  * ************************** */
 async function getClassifications(){
-  // Retorna las filas para que la utilidad pueda procesar los datos
+  // Returns the rows so the utility can process the data
   const data = await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
   return data
 }
 
 /* ***************************
- *  Get all inventory items and classification_name by classification_id
+ * Get all inventory items and classification_name by classification_id
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
   try {
@@ -28,11 +28,11 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 /* ***************************
- * Get inventory item by inventory_id (Usado para detalles y edición)
+ * Get inventory item by inventory_id (Used for details and editing)
  * ************************** */
 async function getInventoryByInvId(inv_id) {
   try {
-    // Consulta para obtener todos los detalles del vehículo, incluyendo inv_miles
+    // Query to get all vehicle details, including inv_miles
     const data = await pool.query(
       `SELECT 
         inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, 
@@ -104,12 +104,51 @@ async function addInventory(
 }
 
 /* ***************************
- * Export all functions
+ * Update Inventory Data
+ * ************************** */
+async function updateInventory(
+  inv_id,
+  inv_make,
+  inv_model,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_year,
+  inv_miles,
+  inv_color,
+  classification_id) {
+  try {
+    const sql =
+      "UPDATE public.inventory SET inv_make = $1, inv_model = $2, inv_description = $3, inv_image = $4, inv_thumbnail = $5, inv_price = $6, inv_year = $7, inv_miles = $8, inv_color = $9, classification_id = $10 WHERE inv_id = $11 RETURNING *"
+    const data = await pool.query(sql, [
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      classification_id,
+      inv_id // $11 for WHERE clause
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
+
+
+/* ***************************
+ * Export functions
  * ************************** */
 module.exports = {
   getClassifications, 
   getInventoryByClassificationId, 
   getInventoryByInvId,
   addClassification,
-  addInventory 
+  addInventory,
+  updateInventory // Added the new function here
 };
