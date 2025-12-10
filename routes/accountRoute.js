@@ -4,24 +4,21 @@ const utilities = require("../utilities")
 const accountController = require("../controllers/accountController")
 const regValidate = require("../utilities/account-validation")
 
-// MODIFICATION 1: The old route for login at "/" is removed, 
-// and the account management logic is moved here.
-// This is the route that requires the utilities.checkLogin middleware 
-// to access the management view.
+// Route to build the account management view at the base path ("/account/")
+// Requires checkLogin middleware to ensure the user is logged in
 router.get("/", 
-  utilities.checkLogin, // <<-- REQUIREMENT: Login verification middleware added
-  utilities.handleErrors(accountController.buildAccountManagement)
+  utilities.checkLogin, // <<-- Login verification middleware added
+  utilities.handleErrors(accountController.buildAccountManagement)
 )
 
-// MODIFICATION 2: A new route "/login" is created for the login view.
-// It is important that the buildLogin function is available for redirects.
+// Route to build the login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
 
 // Route to build registration view
 router.get("/registration", utilities.handleErrors(accountController.buildRegistration))
 
-// Route to process registration
+// Route to process registration (POST /account/register)
 router.post(
   "/register",
   regValidate.registrationRules(),
@@ -29,7 +26,7 @@ router.post(
   utilities.handleErrors(accountController.registerAccount)
 )
 
-// Process the login request, I modified "/login" 
+// Route to process the login request (POST /account/login)
 router.post(
   "/login",
   regValidate.loginRules(),
@@ -37,8 +34,11 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
-// MODIFICATION 3: The following routes I removed because they were redundant:
-// router.get("/", utilities.handleErrors(accountController.buildAccountManagement))
-// router.get("/management", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement))
+// Route to handle the logout process (GET /account/logout)
+// This was the missing route that caused the 404 error.
+router.get(
+  "/logout", 
+  utilities.handleErrors(accountController.accountLogout)
+)
 
 module.exports = router

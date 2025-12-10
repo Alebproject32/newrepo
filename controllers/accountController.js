@@ -116,8 +116,8 @@ async function accountLogin(req, res, next) {
     
     // if user not found, we should handle this gracefully before trying to compare passwords
     if (!accountData) {
-      req.flash("notice", "Please check your credentials and try again.")
-      return res.status(400).render("account/login", {
+      req.flash("notice", "Please check your credentials and try again.")
+      return res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
@@ -159,9 +159,9 @@ async function accountLogin(req, res, next) {
     
     res.cookie("jwt", accessToken, cookieOptions)
     
-    // Change: Redirección corregida a la ruta base de la cuenta (¡CRÍTICO!)
+    // Change: Redirección a la ruta base de la cuenta 
     req.flash("notice", "Login successful! Welcome back.")
-    return res.redirect("/account/") // <--- ¡Asegúrate de que el router escuche esta ruta!
+    return res.redirect("/account/") 
     
   } catch (error) {
     console.error("Login error in controller:", error)
@@ -183,7 +183,7 @@ async function buildAccountManagement(req, res, next) {
   try {
     let nav = await utilities.getNav()
     
-    // Usamos res.locals.accountData que es inyectada por checkLogin
+    // Usamos res.locals.accountData que es inyectada por checkLogin
     const accountData = res.locals.accountData; 
 
     res.render("account/management", {
@@ -194,19 +194,42 @@ async function buildAccountManagement(req, res, next) {
     })
   } catch (error) {
     console.error("Account management error:", error)
-    
-    // Ya no necesitamos verificar el token aquí, el middleware checkLogin lo hace.
-    // Este catch ahora es para errores de renderizado o base de datos.
-    
     next(error)
   }
 }
 
-// MODIFIED! Ensures the new feature is exported
+/* ****************************************
+ * Function: accountLogout
+ * Description: Clears the JWT cookie and redirects the user to the home page.
+ * Req: express request object
+ * Res: express response object (clears cookie and redirects)
+ *************************************** */
+async function accountLogout(req, res) {
+    try {
+        // Clear the JWT cookie (assuming the cookie holding the token is named 'jwt')
+        // The cookie must be cleared to effectively log out the user.
+        res.clearCookie("jwt"); 
+
+        // Send a flash message to confirm logout
+        req.flash("notice", "You have been successfully logged out.");
+
+        // Redirect the user back to the home page (where "My Account" will be visible)
+        res.redirect("/");
+
+    } catch (error) {
+        console.error("Logout failed:", error);
+        // If an error occurs, redirect home anyway
+        res.redirect("/");
+    }
+}
+
+
+// MODIFIED! Ensures the new accountLogout and buildAccountManagement functions are exported
 module.exports = { 
   buildLogin, 
   buildRegistration, 
   registerAccount,
   accountLogin,
-  buildAccountManagement 
+  buildAccountManagement,
+  accountLogout // <--- ¡NUEVA EXPORTACIÓN!
 }
