@@ -21,6 +21,7 @@
     --fifth-color: #39FF14; /* neon green */
     --green-button: #27ae60;
     --red-color: #FF0000;
+    --white-color: #FFFFFF;
   }
   body {
       font-family: Arial, sans-serif; /* Professional, easy to read */
@@ -183,8 +184,8 @@
 
     /* Example specific styles for errors/notices */
     .error, .notice {
-      background-color: var(--four-color); /* Red for errors/notices */
-      color: var(--red-color) rgb(255, 0, 0);
+      background-color: var(--white-color); /* Red for errors/notices */
+      color: var(rgb(255, 0, 0));
       padding: 10px;
       margin: 15px 0;
       border-radius: 5px;
@@ -202,6 +203,7 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
       color: #ecf0f1; /* Light text color */
     }
+
 
     /* **************************************
   * Management View Styles
@@ -575,6 +577,7 @@
 
   .professional-note {
       margin-left: 110px;
+      color: var(--primary-dark);
   }
   /* --------------------------------------
   * Styles for Flash Messages (express-messages)
