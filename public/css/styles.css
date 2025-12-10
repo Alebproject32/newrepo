@@ -2,413 +2,263 @@
 *,
 *:before,
 *:after {
-  box-sizing: border-box;
+ box-sizing: border-box;
 }
 
 /* Base Body Styles (Fonts/Colors) */
 :root {
-  --primary-dark: #004d40; /* Dark Teal */
-  --primary-light: #e0f2f1; /* Light Teal */
-  --accent-color: #007bff; /* Blue for links/buttons */
-  --second-color: #0056b3; /* Dark blue */
-  --third-color: white; /* white color */
-  --text-dark: #333;
-  --text-light: #f8f8f8;
-  --danger-color: #DC143C;
-  --dark-container:#2c3e50; /* Dark blue two*/
-  --four-color: #ecf0f1;
-  --hover-color: #2980b9;
-  --fifth-color: #39FF14; /* neon green */
-  --green-button: #27ae60;
+ --primary-dark: #004d40; /* Dark Teal */
+ --primary-light: #e0f2f1; /* Light Teal */
+ --accent-color: #007bff; /* Blue for links/buttons */
+ --second-color: #0056b3; /* Dark blue */
+ --third-color: white; /* white color */
+ --text-dark: #333;
+ --text-light: #f8f8f8;
+ --danger-color: #DC143C;
+ --dark-container:#2c3e50; /* Dark blue two*/
+ --four-color: #ecf0f1;
+ --hover-color: #2980b9;
+ --fifth-color: #39FF14; /* neon green */
+ --green-button: #27ae60;
 }
 body {
-    font-family: Arial, sans-serif; /* Professional, easy to read */
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-    background-color: var(--primary-light);
-    color: var(--text-dark);
-    background-image: url("/images/site/checkerboard.jpg");
-    background-repeat: repeat;
+  font-family: Arial, sans-serif; /* Professional, easy to read */
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-light);
+  color: var(--text-dark);
+  background-image: url("/images/site/checkerboard.jpg");
+  background-repeat: repeat;
 }
 
+/* Global H1 definition - overridden in mobile query */
 h1 {
-    margin-left: 220px;
+ margin-left: 220px;
 }
+
 #wrapper {
-    background-color: var(--primary-light);
-    width: 90%;
-    max-width: 1200px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--primary-dark);
-    margin: 75px auto;
-    border-radius: 5px;
+ background-color: var(--primary-light);
+ width: 90%;
+ max-width: 1200px;
+ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+ border: 1px solid var(--primary-dark);
+ margin: 75px auto;
+ border-radius: 5px;
 }
 
-/* Base Container Styling */
-  .login-container {
-    max-width: 400px;
-    margin: 2rem auto; /* 1rem */
-    padding: 30px;
-    background-color: var(--dark-container); /* Dark blue/grey background for the form card */
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    color: var(--four-color); /* Light text color */
-  }
-
-  .login-h1 {
-    text-align: center;
-    margin: 1rem;
-    color: var(--dark-container); /* Ensure title outside the card uses standard text color */
-    margin-bottom: 10px;
-  }
-
-  /* Form Styling */
-  .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .login-form .input-group label {
-    color: var(--primary-light);
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    color: var(--text-light);
-  }
-
-  input#inv_make, #inv_model, #inv_image, #inv_thumbnail, #inv_price, #inv_year, #inv_miles, #inv_color  {
-    color: var(--text-dark);
-  }
-
-  #accountPassword {
-    color: var(--text-dark);
-  }
-
-  .input-group label {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-  }
-
-  .input-group input {
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    background-color: var(--text-light); /* Slightly lighter input background */
-    color: var(--text-dark);
-    transition: box-shadow 0.3s;
-  }
-
-  .input-group input:focus {
-    outline: none;
-    box-shadow: var(--text-light); /*0 0 0 3px rgba(52, 152, 219, 0.5), Blue glow on focus */
-  }
-
-  /* Button Styling */
-  .btn-primary {
-    padding: 12px;
-    background-color: var(--danger-color); /* Blue button */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.1s;
-  }
-
-  button.btn-primary {
-    background-color: var(--accent-color);
-  }
-
-  button.btn-primary:hover {
-    background-color: var(--fifth-color);
-    color: var(--dark-container);
-  }
-
-
-  .btn-primary:hover {
-    background-color: var(--fifth-color); /* Darker blue on hover */
-    transform: translateY(-1px);
-  }
-
-  /* Register Link Styling */
-  .register-link {
-    text-align: center;
-    margin-top: 25px;
-    font-size: 0.9em;
-  }
-
-  .register-link a {
-    color: #3498db; /* Matching blue link color */
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-
-  .register-link a:hover {
-    color: var(--fifth-color);
-  }
-
-  .vehicleinformation5 {
-    color: var(--primary-dark);
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin: 1rem;
-  }
-
-  .mb-4 {
-    padding: 10px;
-  }
-
-  .form5 {
-    margin-bottom:  5px;
-  }
-
-  /* Flash Message Styling (Assuming your global styles don't cover it) */
-  /* This targets the EJS message output if it's rendered as a simple list or div */
-  .alert-message {
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  /* Example specific styles for errors/notices */
-  .error, .notice {
-    background-color: #e74c3c; /* Red for errors/notices */
-    color: white;
-    padding: 10px;
-    margin: 15px 0;
-    border-radius: 5px;
-  }
-
-  .registration-container {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    max-width: 450px;
-    margin: 2rem auto; /* 1rem */
-    padding: 1rem;
-    background-color: #2c3e50; /* Dark blue/grey background for the form card */
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    color: #ecf0f1; /* Light text color */
-  }
-
-  /* **************************************
- * Management View Styles
- * ************************************ */
-.management-title {
-    text-align: center;
-    color: var(--primary-dark);
-    margin: 2rem 0;
-    font-size: 2.2em;
+/* Base Link/Image Styles */
+a {
+ color: var(--text-light);
+ text-decoration: none;
 }
 
-.management-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: var(--dark-container);
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+img {
+  max-width: 100%; 
+  height: auto;
 }
 
-.management-links {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.account-management-container a {
-  color: var(--fifth-color);
+.main-content img {
+  max-width: 90%; 
+  display: block;
+  margin: 5px;
 }
 
-.management-btn {
-    display: block;
-    padding: 15px 25px;
-    background-color: var(--green-button);
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 1.1em;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s, transform 0.1s;
+/* Login/Registration Container Styling */
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto; 
+  padding: 30px;
+  background-color: var(--dark-container); /* Dark blue/grey background for the form card */
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  color: var(--four-color); /* Light text color */
 }
 
-.management-btn:hover {
-    background-color: #229954;
-    transform: translateY(-2px);
-    color: white;
+.login-h1 {
+  text-align: center;
+  margin: 1rem;
+  color: var(--dark-container); /* Ensure title outside the card uses standard text color */
+  margin-bottom: 10px;
 }
 
-/* **************************************
- * Account Management View Styles
- * ************************************ */
-.account-management-h1 {
-    text-align: center;
-    color: var(--primary-dark);
-    margin: 2rem 0;
-    font-size: 2.2em;
-}
-
-.account-management-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: var(--dark-container);
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    color: var(--four-color);
-}
-
-.welcome-message {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    border-left: 4px solid var(--green-button);
-}
-
-.welcome-message h2 {
-    color: var(--four-color);
-    margin-top: 0;
-    font-size: 1.3rem;
-    text-align: justify;
-}
-
-.welcome-message p {
-    margin: 0.5rem 0;
-    font-size: 1.1em;
-}
-
-.account-actions {
-    padding: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    text-align: center;
-    border-left: 4px solid var(--green-button);
-}
-
-.account-actions p {
-    font-style: italic;
-    color: #bdc3c7;
-}
-
-.account-actions a {
-    justify-content: center;
-}
-.inventory-management {
-    padding: 1.5rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 10px;
-    border-left: 4px solid var(--green-button);
-}
-
-.inventory-management p {
-    font-style: italic;
-    color: #bdc3c7;
-}
-
-/* Footer Styles */
-footer {
-    text-align: center;
-    padding: 20px 0;
-    margin-top: 40px;
-    border-top: 1px solid var(--primary-dark);
-    color: var(--text-dark);
-}
-
-footer a {
-    color: var(--accent-color);
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: var(--second-color);
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  max-width: 450px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #2c3e50; /* Dark blue/grey background for the form card */
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  color: #ecf0f1; /* Light text color */
 }
 
 .registration-h1 {
-    text-align:center;
-    margin: 1rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
+  text-align:center;
+  margin: 1rem;
+  color: #2c3e50; /* Ensure title outside the card uses standard text color */
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+.login-form, .registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.login-form .input-group label {
+  color: var(--primary-light);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-light);
+}
+
+.input-group label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 0.9em;
+}
+
+.input-group input {
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  background-color: var(--text-light); /* Slightly lighter input background */
+  color: var(--text-dark);
+  transition: box-shadow 0.3s;
+}
+
+/* Specific input colors for form fields outside the dark container */
+input#inv_make, #inv_model, #inv_image, #inv_thumbnail, #inv_price, #inv_year, #inv_miles, #inv_color, #accountPassword {
+  color: var(--text-dark);
+}
+
+.input-group label {
+  color: var(--primary-dark);
+}
+
+.input-group input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Blue glow on focus */
+}
+
+.input-group1 {
+  color: var(--primary-light);
+}
+
+.input-group .form-instruction {
+  color: var(--dark-container);
+}
+
+.form-container {
+  margin: 2rem;
+}
+
+/* Button Styling (Primary/Danger for Login) */
+.btn-primary {
+  padding: 12px;
+  background-color: var(--danger-color); /* Red button */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+/* Button override for generic primary buttons */
+button.btn-primary {
+  background-color: var(--accent-color);
+}
+
+button.btn-primary:hover {
+  background-color: var(--fifth-color);
+  color: var(--dark-container);
+}
+
+.btn-primary:hover {
+  background-color: var(--fifth-color); /* Neon green on hover */
+  transform: translateY(-1px);
+}
+
+/* Button Styling (Registration) */
+.btn-register {
+  padding: 12px;
+  background-color: var(--green-button); /* Green button for registration */
+  color: var(--primary-light);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.btn-register:hover {
+  background-color: #229954; /* Darker green on hover */
+  transform: translateY(-1px);
 }
 
 
-  .registration-h1 {
-    text-align:center;
-    margin: 1rem;
-    color: #2c3e50; /* Ensure title outside the card uses standard text color */
-    margin-bottom: 20px;
-  }
+/* Register Link Styling */
+.register-link {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 0.9em;
+}
 
-  /* Form Styling */
-  .registration-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
+.register-link a {
+  color: #3498db; /* Matching blue link color */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
 
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-    padding: 10px;
-  }
+.register-link a:hover {
+  color: var(--fifth-color);
+}
 
-  .input-group label {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 0.9em;
-    color: var(--primary-dark);
-  }
+/* Utility Classes */
+.vehicleinformation5 {
+  color: var(--primary-dark);
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 1rem;
+}
 
-  .input-group input {
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    background-color: var(--four-color); /* Slightly lighter input background */
-    color: var(--primary-light);
-    transition: box-shadow 0.3s;
-  }
+.mb-4 {
+  padding: 10px;
+}
 
-  .add-classification-h1 {
-    text-align: center;
-    margin: 2rem;
-  }
+.form5 {
+  margin-bottom:  5px;
+}
 
-  .add-inventory-h1 {
-    text-align: center;
-    margin: 2rem;
-  }
+/* Flash Message Styling */
+.alert-message {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
 
-  .input-group1 {
-    color: var(--primary-light);
-  }
-
-  .input-group .form-instruction {
-    color: var(--dark-container);
-  }
-
-  .input-group input:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /* Blue glow on focus */
-  }
-
-  .form-container {
-    margin: 2rem;
-  }
+.error, .notice {
+  background-color: #e74c3c; /* Red for errors/notices */
+  color: white;
+  padding: 10px;
+  margin: 15px 0;
+  border-radius: 5px;
+  text-align: center;
+}
 
 /* Validation Styles for Inputs */
 input:required:invalid, input:focus:invalid {
@@ -451,754 +301,502 @@ input:required:valid {
 .password-reminder strong {
   color: #856404;
 }
-  /* Password Info and Toggle */
-  .password-info {
-    font-size: 0.8em;
-    color: #bdc3c7; /* Lighter grey for info text */
-    margin-bottom: 5px;
-  }
 
-  .password-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
+/* Password Info and Toggle */
+.password-info {
+  font-size: 0.8em;
+  color: #bdc3c7; /* Lighter grey for info text */
+  margin-bottom: 5px;
+}
 
-  .password-input-wrapper input {
-    flex-grow: 1;
-    padding-right: 60px; /* Make space for the button */
-  }
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
-  span {
-    font-size: 0.8rem;
-    text-align: justify;
-    margin-top: 8px;
-  }
+.password-input-wrapper input {
+  flex-grow: 1;
+  padding-right: 60px; /* Make space for the button */
+}
 
+span {
+  font-size: 0.8rem;
+  text-align: justify;
+  margin-top: 8px;
+}
 
-
-  .show-hide-btn {
-    position: absolute;
-    right: 10px;
-    background: none;
-    border: none;
-    color: #3498db;
-    cursor: pointer;
-    font-size: 0.9em;
-    font-weight: bold;
-    padding: 5px;
-    user-select: none; /* Prevent text selection */
-  }
-
-  /* Button Styling */
-  .btn-register {
-    padding: 12px;
-    background-color: var(--green-button); /* Green button for registration */
-    color: var(--primary-light);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.1s;
-  }
-
-  .btn-register:hover {
-    background-color: #229954; /* Darker green on hover */
-    transform: translateY(-1px);
-  }
-
-  /* Flash Message Styling (assuming global styles don't cover it) */
-  .error, .notice {
-    background-color: #e74c3c; /* Red for errors/notices */
-    color: white;
-    padding: 10px;
-    margin: 15px 0;
-    border-radius: 5px;
-    text-align: center;
-  }
+.show-hide-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 5px;
+  user-select: none; /* Prevent text selection */
+}
 
 /* Utility to Center Main Content */
 #site-container {
-    width: 95%;
-    max-width: 1200px;
-    margin: 20px; /* Centers the whole page content */
-}
-
-a {
-    color: var(--text-light);
-    text-decoration: none;
-}
-
-img {
-    max-width: 100%; 
-    height: auto;
-}
-
-.main-content img {
-    max-width: 90%; 
-    display: block;
-    margin: 5px;
+  width: 95%;
+  max-width: 1200px;
+  margin: 20px; /* Centers the whole page content */
 }
 
 .main-content-error {
-    text-align: center;
-    color: var(--text-dark);
+  text-align: center;
+  color: var(--text-dark);
 }
 
 .main-content-error a {
-    color: var(--text-dark);
+  color: var(--text-dark);
 }
 
 .main-content-error img {
-    max-width: 100%;
-    max-height: 250px;
-    height: auto;
-    display: block;
-    margin: 20px auto;
-    border: 3px solid var(--accent-color);
-    border-radius: 10px;
+  max-width: 100%;
+  max-height: 250px;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border: 3px solid var(--accent-color);
+  border-radius: 10px;
 }
 
 .main-content-error h1 {
-    font-size: 5.2em;
-    color: var(--danger-color);
+  font-size: 5.2em;
+  color: var(--danger-color);
 }
 
 .main-content-error p {
-    font-size: 2.2em;
-    margin-bottom: 20px;
+  font-size: 2.2em;
+  margin-bottom: 20px;
 }
 
 .professional-note {
-    margin-left: 110px;
+  margin-left: 110px;
 }
+
 /* --------------------------------------
- * Styles for Flash Messages (express-messages)
- * -------------------------------------- */
+ * Styles for Flash Messages (express-messages)
+ * -------------------------------------- */
 
-/* Estilos para el contenedor UL principal */
- ul.messages li {
-    list-style: none; 
-    padding: 0;
-    margin: 1rem 0;
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    color:  var(--danger-color);
-    font-weight: bold;
+/* Styles for the main UL container */
+ul.messages li {
+  list-style: none; 
+  padding: 0;
+  margin: 1rem 0;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  color:  var(--danger-color);
+  font-weight: bold;
 }
 
-/* Estilos para cada elemento LI */
+/* Styles for each LI element */
 messages {
-    padding: 0.75rem 1.25rem;
-    margin-bottom: 0;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0;
 }
 
 
 /*********************************
- * DELOREAN HERO SECTION
- *********************************/
-
-
+ * DELOREAN HERO SECTION
+ *********************************/
 .hero-delorean {
-    width: 100%;
-    max-width: 100%; 
-    height: auto;
-    display: block; 
-    position: relative; 
-    overflow: hidden;
+  width: 100%;
+  max-width: 100%; 
+  height: auto;
+  display: block; 
+  position: relative; 
+  overflow: hidden;
 }
 
 .delorean-info {
-    position: absolute; 
-    bottom: 5%;
-    left: 2%; 
-    
-    
-    background: linear-gradient(to right, 
-                                rgba(0, 123, 255, 0.7), 
-                                rgba(0, 123, 255, 0.4)); 
-    color: var(--third-color); 
-    padding: 10px;
-    border-radius: 8px; 
-    max-width: 50%; 
-    font-size: 0.9em;
+  position: absolute; 
+  bottom: 5%;
+  left: 2%; 
+  background: linear-gradient(to right, 
+                              rgba(0, 123, 255, 0.7), 
+                              rgba(0, 123, 255, 0.4)); 
+  color: var(--third-color); 
+  padding: 10px;
+  border-radius: 8px; 
+  max-width: 50%; 
+  font-size: 0.9em;
 }
 
 
 .delorean-info h2 {
-    color: var(--third-color);
-    margin-top: 0;
-    font-size: 1.2em;
+  color: var(--third-color);
+  margin-top: 0;
+  font-size: 1.2em;
 }
 
 .delorean-info ul {
-    list-style: none; 
-    padding: 10px;
-    margin: 10px 0;
+  list-style: none; 
+  padding: 10px;
+  margin: 10px 0;
 }
 
 .delorean-info ul li {
-    margin-bottom: 5px;
-    font-size: 0.8em;
+  margin-bottom: 5px;
+  font-size: 0.8em;
 }
 
-.btn-primary {
-    background-color: var(--primary-dark); 
-    color: var(--third-color);
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px; 
-    cursor: pointer; 
-    text-decoration: none; 
-    font-size: 0.9em;
-    font-weight: bold;
-    transition: background-color 0.3s ease; 
+/* Primary button used in delorean info */
+.delorean-info .btn-primary {
+  background-color: var(--primary-dark); 
+  color: var(--third-color);
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px; 
+  cursor: pointer; 
+  text-decoration: none; 
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background-color 0.3s ease; 
 }
 
-.btn-primary:hover {
-    background-color: var(--second-color); 
+.delorean-info .btn-primary:hover {
+  background-color: var(--second-color); 
 }
 
 /************************************
- * STYLES FOR SINGLE VEHICLE DETAIL
- ************************************/
+ * STYLES FOR SINGLE VEHICLE DETAIL
+ ************************************/
 .vehicle-details-container {
-    display: flex;
-    flex-wrap: wrap; /* Stacks on small screens */
-    gap: 30px;
-    margin-top: 20px;
-    padding: 0 10px;
-    justify-content: center;
+  display: flex;
+  flex-wrap: wrap; /* Stacks on small screens */
+  gap: 30px;
+  margin-top: 20px;
+  padding: 0 10px;
+  justify-content: center;
 }
 
 .detail-image {
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-    object-fit: contain;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .detail-info {
-    flex-grow: 1;
-    min-width: 300px;
-    max-width: 500px;
+  flex-grow: 1;
+  min-width: 300px;
+  max-width: 500px;
 }
 
 .detail-info h2 {
-    color: var(--primary-dark);
-    margin-top: 0;
-    border-bottom: 2px solid var(--accent-color);
-    padding-bottom: 5px;
-    text-align: center;
+  color: var(--primary-dark);
+  margin-top: 0;
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 5px;
+  text-align: center;
 }
 
 .price-detail {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin: 10px 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 10px 0;
 }
 
 .detail-list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .detail-list li {
-    padding: 8px 0;
-    border-bottom: 1px dashed #eee;
-    border-color: var(--text-dark);
-    background-color: var(--text-light);
-    border-radius: 5px;
-    margin: 5px;
-    padding: 2px;
-    height: auto;
-    width: auto;
+  padding: 8px 0;
+  border-bottom: 1px dashed #eee;
+  border-color: var(--text-dark);
+  background-color: var(--text-light);
+  border-radius: 5px;
+  margin: 5px;
+  padding: 2px;
+  height: auto;
+  width: auto;
 }
 
 
 .detail-list .label {
-    font-weight: bold;
-    display: inline-block;
-    width: 150px;
-    color: #555;
+  font-weight: bold;
+  display: inline-block;
+  width: 150px;
+  color: #555;
 }
 
 
 /*************************************************
- * 1. HEADER (TOP ROW) STYLES
- * (Header: CSE Motors | My Account)
- *************************************************/
+ * 1. HEADER (TOP ROW) STYLES
+ * (Header: CSE Motors | My Account)
+ *************************************************/
 /* Background color for the very top dark strip */
 #top-header {
-    background-color: var(--primary-dark);
-    padding: 10px 0;
-    color: var(--text-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
+  background-color: var(--primary-dark);
+  padding: 10px 0;
+  color: var(--text-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 #top-header .sitename a {
-    color: var(--text-light);
-    font-size: 2.0em;
-    font-weight: bold;
-    padding: 0 10px;
-    margin: 20px;
-    }
+  color: var(--text-light);
+  font-size: 2.0em;
+  font-weight: bold;
+  padding: 0 10px;
+  margin: 20px;
+}
 
-  #tools a {
-      color: var(--text-light);
-      font-size: 1.1em;
-      padding: 0 10px;
-      margin: 20px;
-    }
+#tools a {
+  color: var(--text-light);
+  font-size: 1.1em;
+  padding: 0 10px;
+  margin: 20px;
+}
 
 /*************************************************
- * 2. NAVIGATION BAR STYLES
- * (Navigation: Home | Custom | Sedan...)
- *************************************************/
+ * 2. NAVIGATION BAR STYLES
+ * (Navigation: Home | Custom | Sedan...)
+ *************************************************/
 nav {
-    margin: 10px auto;
-    max-width: 100%;
-    overflow: hidden;
+  margin: 10px auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 #nav ul {
-    list-style: none;
-    padding: 0; 
-    margin: 0;
-    display: flex;
-    flex-direction: row; 
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center; 
-    gap: 1px; 
-    background-color: var(--text-dark);
-    width: 100%;
+  list-style: none;
+  padding: 0; 
+  margin: 0;
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; 
+  gap: 1px; 
+  background-color: var(--text-dark);
+  width: 100%;
 }
 
 #nav ul li {
-    text-align: center;
-    flex: 0 0 auto;
-    white-space: nowrap;
+  text-align: center;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 #nav ul li a {
-    color: var(--text-light);
-    text-decoration: none;
-    padding: 10px 20px;
-    display: block;
-    font-size: 1em;
-    
+  color: var(--text-light);
+  text-decoration: none;
+  padding: 10px 20px;
+  display: block;
+  font-size: 1em;
 }
 
-/*************************************************
- * 3. MAIN CONTENT STYLES (Mobile)
- *************************************************/
-@media screen and (max-width: 768px) {
- main h1 {
-    font-size: 1.5em;
-    margin-top: 20px;
+/* **************************************
+ * Management View Styles
+ * ************************************ */
+.management-title {
+  text-align: center;
+  color: var(--primary-dark);
+  margin: 2rem 0;
+  font-size: 2.2em;
 }
 
-h1 {
-    margin: 70px;
-    text-align: center;
+.management-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--dark-container);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-nav {
-  margin-right: 5px;
-  
-}
-  .main-content, 
-.upgrades-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 10px;
+.management-container h2, .management-container p {
+  color: var(--primary-light);
 }
 
-#site-container {
-        width: auto;
-    }
-
-#nav ul {
-        flex-direction: row;
-        flex-wrap: wrap; /* Envuelve elementos en móvil */
-        justify-content: center;
-        gap: 5px; /* Menor gap en móvil */
-        margin: 5px 5px;
-        padding: 5px;
-    }
-
-    #nav ul li {
-        width: auto;
-    }
-/*********************************
- * 1. HEADER & NAVIGATION (MOBILE)
- *********************************/
-
-/* Top Header Row (CSE Motors / My Account) */
-#top-header {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    padding: 10px 10px; 
+.management-links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.account-management-container a {
+  color: var(--fifth-color);
 }
 
-
-#top-header .sitename a {
-    font-size: 1.4em; 
+.management-btn {
+  display: block;
+  padding: 15px 25px;
+  background-color: var(--green-button);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+  transition: background-color 0.3s, transform 0.1s;
 }
 
-#top-header #tools a {
-    font-size: 0.9em; 
-}
-.review-container {
-    border: 1px solid var(--text-light);
-    padding: 15px;
-}
-.upgrades-list, .upgrade-item {
-      background-color: var(--primary-dark); 
-      padding: 5px;
-      text-align: center;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-  }
-
-  .upgrade-item a {
-    color: var(--four-color);
-  }
-
-
-  .reviews-section ul li {
-      margin-bottom: 25px;
-    }
-#wrapper {
-    background-color: var(--primary-light);
-    width: 95%;
-    max-width: 1200px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border: 1px solid var(--primary-dark);
-    margin: 75px auto;
-    border-radius: 5px;
+.management-btn:hover {
+  background-color: #229954;
+  transform: translateY(-2px);
+  color: white;
 }
 
-a {
-    color: var(--accent-color);
-    text-decoration: none;
+/* **************************************
+ * Account Management View Styles
+ * ************************************ */
+.account-management-h1 {
+  text-align: center;
+  color: var(--primary-dark);
+  margin: 2rem 0;
+  font-size: 2.2em;
 }
 
-    #inv-display {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 10px;
-    }
-
-    #inv-display li { 
-        list-style-type: none;
-        text-align: center;
-        border: 1px solid var(--primary-dark);
-        padding: 10px;
-        border-radius: 5px;
-        background-color: var(--third-color);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        overflow: hidden; 
-        min-height: 200px;
-    }
-
-    #inv-display li img { 
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto 5px auto;
-        border-radius: 5px;
-        object-fit: contain; 
-        width: 100%;
-        max-height: 100px;
-    }
-
-    /* Base Container Styling */
-  .login-container {
-    max-width: 400px;
-    margin: 1rem; /*  */
-    padding: 30px;
-    background-color: var(--dark-container); /* Dark blue/grey background for the form card */
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    color: var(--four-color); /* Light text color */
-  }
-
-  .registration-container {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    max-width: 450px;
-    margin: 1rem; 
-    padding: 1rem;
-    background-color: #2c3e50; /* Dark blue/grey background for the form card */
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    color: #ecf0f1; /* Light text color */
-  }
-
-  #input-group .label {
-    color: var(--four-color);
-  }
-
-  .account-management-container {
-  margin: 10px;
+.account-management-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--dark-container);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  color: var(--four-color);
 }
 
-/*************************************************
- * 4. FOOTER STYLES
- *************************************************/
+.welcome-message {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid var(--green-button);
+}
+
+.welcome-message h2 {
+  color: var(--four-color);
+  margin-top: 0;
+  font-size: 1.3rem;
+  text-align: justify;
+}
+
+.welcome-message p {
+  margin: 0.5rem 0;
+  font-size: 1.1em;
+}
+
+.account-actions {
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-align: center;
+  border-left: 4px solid var(--green-button);
+}
+
+.account-actions p {
+  font-style: italic;
+  color: #bdc3c7;
+}
+
+.account-actions a {
+  justify-content: center;
+}
+.inventory-management {
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 10px;
+  border-left: 4px solid var(--green-button);
+}
+
+.inventory-management p {
+  font-style: italic;
+  color: #bdc3c7;
+}
+
+/* Footer Styles (Desktop/Global Base) */
 footer {
-    padding: 15px 0;
-    border-top: 1px solid var(--text-light);
-    margin-top: 20px;
-    margin-left: 40px;
-}
-.professional-note {
-    margin-left: 5px;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid var(--primary-dark);
+  color: var(--text-dark);
 }
 
- footer a {
-        color: var(--second-color);
-        font-weight: bold;
-    }
-
-    footer p {
-      color: var(--text-dark);
-      text-align: start;
-    }
-
-
+footer a {
+  color: var(--accent-color);
+  text-decoration: none;
 }
 
-/*************************************************
- * 5. MEDIA QUERIES (Larger Screens - Desktop Layout)
- *************************************************/
-@media screen and (min-width: 768px) {
-    .vehicle-details-container {
-        flex-wrap: nowrap; /* Forces side-by-side */
-    }
-    .detail-image {
-        width: 40%;
-    }
-    .detail-info {
-        width: 60%;
-    }
-
-  #site-container {
-        width: 95%;
-    }
-
-    #nav ul {
-        flex-direction: row;
-        flex-wrap: nowrap; /* No envuelve en desktop */
-        justify-content: center;
-        gap: 40px; /* Espacio uniforme */
-        margin: 15px auto;
-        max-width: 1180px; /* Limita el ancho máximo */
-        padding: 0 20px;
-    }
-
-    #nav ul li {
-        width: auto;
-    }
-    
-    .main-content {
-        flex-direction: row;
-        gap: 40px;
-        align-items: center;
-    }
-    
-    .main-content section {
-        flex: 1;
-    }
-
-    .upgrades-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 25px;
-    }
-    
-
-
-    #left #right {
-      display: flex;
-      flex-direction: column; 
-      align-items: center;
-    }
-
-      .upgrades-list {
-        display: grid;
-        grid-template-columns: 1fr 1fr; 
-        gap: 15px; 
-        padding: 0;
-        margin: 0;
-        list-style: none; 
-    }
-
-
-  .upgrade-item {
-      background-color: var(--primary-dark); 
-      border: 1px solid var(--accent-color); 
-      padding: 5px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-  }
-
-
-  .upgrade-item img {
-      max-width: 50px; 
-      height: auto;
-      margin-bottom: 5px;
-  }
-
-  .upgrades-section {
-        flex: 1; 
-    }
-
-    .reviews-section ul li {
-      margin-bottom: 40px;
-      
-    }
-
-    .delorean-info {
-        bottom: 15%; 
-        left: 10%; 
-        max-width: 40%; 
-        font-size: 1.2em; 
-    }
-
-    #inv-display  img {
-        border-radius: 10px;
-        margin-bottom: 10px;
-        border-radius: 5px;
-        object-fit: contain;
-        margin: 0 auto 10px auto;
-        width: 100%; 
-        max-height: 120px;
-    }
-
-
-    
-    #inv-display { 
-        list-style: none;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr); 
-        gap: 20px; 
-        padding: 20px 0;
-        width: 95%;
-        margin: 20px auto;
-    }
-
-    
-    #inv-display li {
-        text-align: center;
-        border: 1px solid var(--text-dark);
-        padding: 15px;
-        border-radius: 5px;
-        background-color: var(--text-light);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; 
-        align-items: center;
-        overflow: hidden;
-        min-height: 250px;
-    }
-   
-    #inv-display a {
-        font-weight: bold;
-        color: var(--accent-color);
-        display: block; 
-        margin-top: 10px;
-    }
-    #inventoryDisplay a.action-link:last-child {
-    background-color: var(--danger-color); /* Delete (Rojo) */
-    color: var(--second-color);
-  }
-
-  .form-description {
-      color: var(--text-dark);
-      font-style: italic;
-      text-align: justify;
-      padding: 6px;
-    }
-
-    footer {
-    padding: 15px 0;
-    border-top: 1px solid var(--text-light);
-    margin-top: 20px;
-    margin-left: 20px;
-    }
-
-    footer a {
-        color: var(--second-color);
-        font-weight: bold;
-    }
-
-    footer p {
-      color: var(--text-dark);
-      text-align: start;
-    }
-
+footer a:hover {
+  color: var(--second-color);
 }
+
+.add-classification-h1, .add-inventory-h1 {
+  text-align: center;
+  margin: 2rem;
+}
+
+/* Pequeño ajuste para el Select List */
+#classificationList {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  width: 100%;
+  max-width: 400px; /* Limit width */
+  margin-bottom: 1rem;
+  color: var(--text-dark); /* Ensure text is visible */
+  background-color: var(--third-color); /* White background */
+}
+
 /* =====================================================
-    Inventory Management Table Styles (Nuevos estilos)
-    (Añadidos para la prueba de funcionalidad AJAX)
+    Inventory Management Table Styles (New styles)
+    (Added for AJAX functionality testing)
 =====================================================
 */
 #inventoryDisplay {
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #inventoryDisplay table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95em;
-    min-width: 600px;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  min-width: 600px;
 }
 
 #inventoryDisplay thead {
-    background-color: var(--primary-dark); /* Dark Teal */
-    color: var(--primary-light);
+  background-color: var(--primary-dark); /* Dark Teal */
+  color: var(--primary-light);
 }
 
 #inventoryDisplay th, 
 #inventoryDisplay td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #dddddd;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #dddddd;
 }
 
 #inventoryDisplay tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+  background-color: #f3f3f3;
 }
 
 #inventoryDisplay tbody tr:hover {
-    background-color: var(--primary-light); /* Light Teal al pasar el ratón */
+  background-color: var(--primary-light); /* Light Teal on hover */
 }
 
 #inventoryDisplay thead td{
@@ -1206,18 +804,18 @@ footer {
 }
 #inventoryDisplay td:last-child,
 #inventoryDisplay th:last-child {
-    text-align: center; /* Centrar acciones/botones */
+  text-align: center; /* Center actions/buttons */
 }
 
-/* Estilo para los botones de la tabla */
+/* Style for table buttons */
 #inventoryDisplay a.action-link {
-    display: inline-block;
-    padding: 5px 10px;
-    margin: 0 5px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 #inventoryDisplay tbody td a {
@@ -1229,17 +827,17 @@ footer {
 }
 
 #inventoryDisplay a.action-link:first-child {
-    background-color: var(--green-button); /* Edit (Verde) */
-    color: var(--green-button);
+  background-color: var(--green-button); /* Edit (Green) */
+  color: var(--green-button);
 }
 
 #inventoryDisplay a.action-link:last-child {
-    background-color: var(--danger-color); /* Delete (Rojo) */
-    color: var(--second-color);
+  background-color: var(--danger-color); /* Delete (Red) */
+  color: var(--second-color);
 }
 
 #inventoryDisplay a.action-link:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 noscript {
@@ -1247,42 +845,348 @@ noscript {
   font-style: italic;
   margin: 5rem;
 }
-/* Pequeño ajuste para el Select List */
-#classificationList {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1em;
-    width: 100%;
-    max-width: 400px; /* Limitar el ancho */
-    margin-bottom: 1rem;
-    color: var(--text-dark); /* Asegurar que el texto sea visible */
-    background-color: var(--third-color); /* Fondo blanco */
-}
-
-.management-container h2, p {
-  color: var(--primary-light);
-}
 
 body .main-content-error {
   background-color: var(--hover-color);
 }
 
-/* Media Query para manejo de tabla en dispositivos pequeños */
-@media (max-width: 768px) {
-    #inventoryDisplay {
-        overflow-x: auto; /* Permitir desplazamiento horizontal en dispositivos pequeños */
-    }
 
-    #inventoryDisplay table {
-        min-width: 700px; /* Asegura que la tabla se mantenga legible */
-    }
-
-    .form-description {
-      color: var(--text-dark);
-      font-style: italic;
-      text-align: justify;
-      padding: 6px;
-    }
-
+/*************************************************
+ * 3. MAIN CONTENT STYLES (Mobile Overrides)
+ *************************************************/
+@media screen and (max-width: 768px) {
+  main h1 {
+    font-size: 1.5em;
+    margin-top: 20px;
   }
+  
+  h1 {
+    margin: 70px;
+    text-align: center;
+  }
+  
+  nav {
+    margin-right: 5px;
+  }
+  .main-content,
+  .upgrades-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+  }
+  #site-container {
+    width: auto; 
+  }
+  
+  #nav ul {
+    flex-direction: row;
+    flex-wrap: wrap; /* Wraps elements on mobile */
+    justify-content: center;
+    gap: 5px; /* Smaller gap on mobile */
+    margin: 5px 5px;
+    padding: 5px;
+    }
+
+  #nav ul li {
+  width: auto;
+}
+/*********************************
+ * 1. HEADER & NAVIGATION (MOBILE)
+ *********************************/
+/* Top Header Row (CSE Motors / My Account) */
+  #top-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 10px 10px;
+  }
+
+  #top-header .sitename a {
+    font-size: 1.4em;
+  }
+
+  #top-header #tools a {
+    font-size: 0.9em;
+  }
+    
+  .review-container {
+    border: 1px solid var(--text-light);
+    padding: 15px;
+  }
+
+  .upgrades-list, .upgrade-item {
+    background-color: var(--primary-dark); 
+    padding: 5px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+
+  .upgrade-item a {
+    color: var(--four-color);
+  }
+  
+  .reviews-section ul li {
+    margin-bottom: 25px;
+  }
+  
+  #wrapper {
+    background-color: var(--primary-light);
+    width: 95%;
+    max-width: 1200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--primary-dark);
+    margin: 75px auto;
+    border-radius: 5px;
+  }
+  
+  a {
+    color: var(--accent-color);
+    text-decoration: none;
+  }
+  
+  #inv-display {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  #inv-display li { 
+    list-style-type: none;
+    text-align: center;
+    border: 1px solid var(--primary-dark);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--third-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden; 
+    min-height: 200px;
+  }
+  
+  #inv-display li img { 
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 5px auto;
+    border-radius: 5px;
+    object-fit: contain; 
+    width: 100%;
+    max-height: 100px;
+  }
+
+/* Login/Registration Container mobile adjustments */
+  .login-container {
+    max-width: 400px;
+    margin: 1rem; 
+    padding: 30px;
+  }
+  
+  .registration-container {
+    max-width: 450px;
+    margin: 1rem; 
+    padding: 1rem;
+  }
+  
+  #input-group .label {
+    color: var(--four-color);
+  }
+
+  .account-management-container {
+    margin: 10px;
+  }
+
+/*************************************************
+ * 4. FOOTER STYLES (Mobile Overrides)
+ *************************************************/
+    footer {
+      padding: 15px 0;
+      border-top: 1px solid var(--text-light);
+      margin-top: 20px;
+      margin-left: 40px;
+    }
+    
+    .professional-note {
+      margin-left: 5px;
+    }
+
+    footer a {
+      color: var(--second-color);
+      font-weight: bold;
+    }
+
+    footer p {
+      color: var(--text-dark);
+      text-align: start;
+    }
+
+/* Media Query for table handling on small devices */
+@media (max-width: 768px) {
+  #inventoryDisplay {
+    overflow-x: auto; /* Allow horizontal scrolling on small devices */
+  }
+  
+  #inventoryDisplay table {
+    min-width: 700px; /* Ensures the table remains legible */
+  }
+  
+  .form-description {
+    color: var(--text-dark);
+    font-style: italic;
+    text-align: justify;
+    padding: 6px;
+    }
+  }
+}
+
+/*************************************************
+ * 5. MEDIA QUERIES (Larger Screens - Desktop Layout)
+ *************************************************/
+@media screen and (min-width: 768px) {
+  .vehicle-details-container {
+    flex-wrap: nowrap; /* Forces side-by-side */
+  }
+  .detail-image {
+    width: 40%;
+  }
+  .detail-info {
+    width: 60%;
+  }
+  #site-container {
+    width: 95%;
+  }
+  #nav ul {
+    flex-direction: row;
+    flex-wrap: nowrap; /* No wrapping on desktop */
+    justify-content: center;
+    gap: 40px; /* Uniform spacing */
+    margin: 15px auto;
+    max-width: 1180px; /* Limits max width */
+    padding: 0 20px;
+  }
+  #nav ul li {
+    width: auto;
+  }
+  .main-content {
+    flex-direction: row;
+    gap: 40px;
+    align-items: center;
+  }
+  .main-content section {
+    flex: 1;
+  }
+
+  .upgrades-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+    
+  #left #right {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+  }
+  .upgrades-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+    padding: 0;
+    margin: 0;
+    list-style: none; 
+  }
+  .upgrade-item {
+    background-color: var(--primary-dark); 
+    border: 1px solid var(--accent-color); 
+    padding: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .upgrade-item img {
+    max-width: 50px; 
+    height: auto;
+    margin-bottom: 5; 
+  }
+  .upgrades-section {
+    flex: 1; 
+  }
+  .reviews-section ul li {
+    margin-bottom: 40px;
+  }
+  .delorean-info {
+    bottom: 15%; 
+    left: 10%; 
+    max-width: 40%; 
+    font-size: 1.2em; 
+  }
+  #inv-display img {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    object-fit: contain;
+    margin: 0 auto 10px auto;
+    width: 100%; 
+    max-height: 120px;
+  }
+  #inv-display { 
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
+    padding: 20px 0;
+    width: 95%;
+    margin: 20px auto;
+  }
+  #inv-display li {
+    text-align: center;
+    border: 1px solid var(--text-dark);
+    padding: 15px;
+    border-radius: 5px;
+    background-color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+    align-items: center;
+    overflow: hidden;
+    min-height: 250px;
+  }
+  #inv-display a {
+    font-weight: bold;
+    color: var(--accent-color);
+    display: block; 
+    margin-top: 10px;
+  }
+  #inventoryDisplay a.action-link:last-child {
+    background-color: var(--danger-color); /* Delete (Red) */
+    color: var(--second-color);
+  }
+  .form-description {
+    color: var(--text-dark);
+    font-style: italic;
+    text-align: justify;
+    padding: 6px;
+  }
+
+/* Footer Styles (Desktop/Min-width Overrides) */
+   footer {
+    padding: 15px 0;
+    border-top: 1px solid var(--text-light);
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  footer a {
+    color: var(--second-color);
+    font-weight: bold;
+  }
+  footer p {
+    color: var(--text-dark);
+    text-align: start;
+  }
+}
