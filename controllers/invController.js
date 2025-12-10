@@ -296,7 +296,7 @@ invCont.buildEditInventory = async function (req, res, next) {
  * Update Inventory Data
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
-    // 🚨 DEBUG CRÍTICO: Muestra todo lo que se recibió del formulario
+    // 🚨 CRITICAL DEBUG: Show everything received from the form
     console.log("--- FORM DATA RECEIVED (req.body) ---");
     console.log(req.body);
     console.log("-------------------------------------");
@@ -380,14 +380,14 @@ invCont.updateInventory = async function (req, res, next) {
     try {
         // Call the model with the sanitized values
         const updateResult = await invModel.updateInventory(
-            sanitizedInvId,  // Use sanitized ID
+            sanitizedInvId,  // Use sanitized ID
             inv_make,
             inv_model,
             inv_description,
             inv_image,
             inv_thumbnail,
             sanitizedPrice, // Use sanitized price
-            sanitizedYear,  // Use sanitized year
+            sanitizedYear,  // Use sanitized year
             sanitizedMiles, // Use sanitized miles
             inv_color,
             sanitizedClassificationId // Use sanitized classification ID
@@ -427,6 +427,100 @@ invCont.updateInventory = async function (req, res, next) {
     } catch (error) {
         // Catch unexpected errors (e.g., connection issues)
         console.error("Update inventory error:", error)
+        next(error)
+    }
+}
+
+/* ***************************
+ * Build delete confirmation view (RENAMED TO MATCH ROUTE)
+ * Step One: Delivers the delete confirmation view with data
+ * ************************** */
+invCont.buildDeleteView = async function (req, res, next) {
+    try {
+        // NOTE: The route uses :invId, but your code uses req.params.inventoryId.
+        // Assuming your route is '/delete/:invId' and you want to use 'invId' here
+        // If the route is '/delete/:invId', you should use req.params.invId
+        // We will stick to the route file's convention from the previous response:
+        // router.get("/delete/:invId", ...)
+        const inv_id = parseInt(req.params.invId)
+        
+        // Get the data for the inventory item from the database.
+        const itemData = await invModel.getInventoryByInvId(inv_id) 
+
+        // Check if itemData was found
+        if (!itemData) {
+            let err = new Error("Inventory Item not found for deletion.")
+            err.status = 404
+            throw err
+        }
+        
+        // Build the navigation for the new view.
+        let nav = await utilities.getNav()
+        
+        // Build a name variable to hold the inventory item's make and model.
+        const itemName = `${itemData.inv_make} ${itemData.inv_model}`
+        
+        // Call the res.render function to deliver the delete confirmation view.
+        res.render("./inventory/delete-confirm", {
+            title: "Delete " + itemName,
+            nav,
+            errors: null,
+            // Add the appropriate data to the data object to populate the form.
+            inv_id: itemData.inv_id,
+            inv_make: itemData.inv_make,
+            inv_model: itemData.inv_model,
+            inv_year: itemData.inv_year, 
+            inv_price: itemData.inv_price,
+            // The following are added to ensure consistency with sticky forms if needed, 
+            // though they are not used in the simple delete form:
+            inv_description: itemData.inv_description, 
+            inv_image: itemData.inv_image,
+            inv_thumbnail: itemData.inv_thumbnail,
+            inv_miles: itemData.inv_miles, 
+            inv_color: itemData.inv_color,
+            classification_id: itemData.classification_id
+        })
+    } catch (error) {
+        // Pass the error to the central Express error handler
+        console.error("Build delete inventory view error:", error)
+        next(error)
+    }
+}
+
+/* ***************************
+ * Process inventory deletion
+ * Step Two: Carries out the delete operation
+ * ************************** */
+invCont.deleteInventory = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    
+    // Collect the inv_id value from the request.body object.
+    const { inv_id, inv_make, inv_model } = req.body
+    
+    // Use parseInt for the inv_id value during the collection and storage.
+    const invId = parseInt(inv_id) 
+
+    // Pass the inv_id value to a model-based function to delete the inventory item.
+    try {
+        // NOTE: Assuming model function is named 'deleteInventoryItem'
+        const deleteResult = await invModel.deleteInventoryItem(invId) 
+
+        // If the delete was successful, return a flash message to the inventory management view.
+        if (deleteResult) {
+            const itemName = `${inv_make} ${inv_model}`
+            req.flash("notice", `The ${itemName} was successfully deleted.`)
+            res.redirect("/inv/") 
+        } else {
+            // If the delete failed, return a flash failure message and redirect.
+            const itemName = `${inv_make} ${inv_model}`
+            req.flash("notice", "Sorry, the deletion failed.")
+            
+            // Redirect to the route to rebuild the delete view for the same inventory item.
+            res.redirect(`/inv/delete/${invId}`) 
+        }
+    } catch (error) {
+        console.error("Delete inventory error:", error)
+        // If an unexpected error occurs (e.g., database connection), pass to error handler
         next(error)
     }
 }

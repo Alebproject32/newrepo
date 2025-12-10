@@ -1,9 +1,11 @@
 // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
-const invController = require("../controllers/invController")
-const utilities = require("../utilities/") // Asegúrate de importar utilities
+const invController = require("../controllers/invController") // <-- USAMOS SOLO ESTE CONTROLADOR
+const utilities = require("../utilities/") 
 const inventoryValidate = require("../utilities/inventory-validation")
+
+// --- Se eliminó la importación redundante 'inventoryController' ---
 
 // Route to build inventory by classification view
 // URL Example: /inv/type/Sport
@@ -55,6 +57,23 @@ router.post(
   inventoryValidate.inventoryRules(), 
   inventoryValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
+);
+
+// =========================================================
+// NEW ROUTE TO (DELETE)
+// =========================================================
+
+// Route GET to show confirmation of delete
+// :invId it´s URL parameter 
+router.get(
+  "/delete/:invId",
+  utilities.handleErrors(invController.buildDeleteView) // <-- CORREGIDO: Usando invController
+);
+
+// Route POST to delete inventory
+router.post(
+  "/delete/",
+  utilities.handleErrors(invController.deleteInventory) // <-- CORREGIDO: Usando invController
 );
 
 module.exports = router;

@@ -1,0 +1,113 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %> <%- messages() %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<div class="form-container">
+  <!-- Client Direction Text: Confirm Deletion - The delete is permanent. -->
+  <p
+    class="mb-4 p-3 text-lg bg-red-100 border-l-4 border-red-500 text-red-700 rounded-md shadow-inner font-semibold"
+  >
+    Delete Confirmation: Please verify that this is the correct inventory item
+    to be deleted.
+    <strong>This action is permanent and cannot be undone.</strong>
+  </p>
+
+  <!-- 
+            FORM SUBMISSION TO /inv/delete/
+            The form must submit the inv_id.
+            Removed the client-side JavaScript that prevented button activation.
+        -->
+  <form id="deleteForm" action="/inv/delete/" method="POST" class="form-style">
+    <fieldset class="form5">
+      <legend class="vehicleinformation5">
+        Vehicle Information
+      </legend>
+
+      <!-- Hidden field for Inventory ID (CRUCIAL for POST) -->
+      <input
+        type="hidden"
+        name="inv_id"
+        id="inv_id"
+        required
+        value="<%= locals.inv_id %>"
+      />
+
+      <!-- 
+                    Make, Model, Year, and Price fields are included and set to readonly.
+                -->
+
+      <!-- Make -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-1" for="inv_make"
+          >Make:</label
+        >
+        <input
+          type="text"
+          name="inv_make"
+          id="inv_make"
+          required
+          value="<%= locals.inv_make %>"
+          readonly
+          class="w-full p-3 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none cursor-not-allowed"
+        />
+      </div>
+
+      <!-- Model -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-1" for="inv_model"
+          >Model:</label
+        >
+        <input
+          type="text"
+          name="inv_model"
+          id="inv_model"
+          required
+          value="<%= locals.inv_model %>"
+          readonly
+          class="w-full p-3 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none cursor-not-allowed"
+        />
+      </div>
+
+      <!-- Year (Added back as requested) -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-1" for="inv_year"
+          >Year:</label
+        >
+        <input
+          type="number"
+          name="inv_year"
+          id="inv_year"
+          required
+          value="<%= locals.inv_year %>"
+          readonly
+          class="w-full p-3 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none cursor-not-allowed"
+        />
+      </div>
+
+      <!-- Price -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-1" for="inv_price"
+          >Price:</label
+        >
+        <input
+          type="number"
+          name="inv_price"
+          id="inv_price"
+          required
+          value="<%= locals.inv_price %>"
+          readonly
+          class="w-full p-3 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none cursor-not-allowed"
+        />
+      </div>
+    </fieldset>
+
+    <!-- Submit Button changed to "Delete" -->
+    <button type="submit" class="delete">Delete Vehicle</button>
+  </form>
+</div>
