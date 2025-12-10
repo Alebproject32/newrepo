@@ -19,19 +19,41 @@
           <% }) %>
         </ul>
         <% } %>
-
         <div class="account-management-container">
           <div class="welcome-message">
             <h2>Welcome, <%= accountData.account_firstname %>!</h2>
             <p>You're logged in.</p>
-            <p>Email: <%= accountData.account_email %></p>
-            <p>Account Type: <%= accountData.account_type %></p>
+            <ul>
+              <li>
+                Name: <%= accountData.account_firstname %> <%=
+                accountData.account_lastname %>
+              </li>
+              <li>Email: <%= accountData.account_email %></li>
+              <li>Account Type: <%= accountData.account_type %></li>
+            </ul>
           </div>
-
           <div class="account-actions">
-            <!-- Aquí agregarás más opciones después -->
-            <p>Account management options will appear here.</p>
+            <h3>Account Management</h3>
+            <p>Use the link below to update your account information.</p>
+            <!-- NEW: Link to the account update view -->
+
+            <a
+              href="/account/update/<%= accountData.account_id %>"
+              title="Click to update account information"
+              >Update Account Information</a
+            >
           </div>
+          <!-- NEW: Conditional Inventory Management Link (Task 3 Requirement) -->
+          <% if (accountData.account_type === 'Admin' ||
+          accountData.account_type === 'Employee') { %>
+          <div class="inventory-management">
+            <h2>Inventory Management</h2>
+            <p>You have access to manage inventory.</p>
+            <a href="/inv/" title="Click to manage inventory"
+              >Inventory Management</a
+            >
+          </div>
+          <% } %>
         </div>
       </div>
     </main>

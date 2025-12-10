@@ -1,79 +1,107 @@
 // Needed Resources 
 const express = require("express")
 const router = new express.Router() 
-const invController = require("../controllers/invController") // <-- USAMOS SOLO ESTE CONTROLADOR
+const invController = require("../controllers/invController") // <-- WE USE ONLY THIS CONTROLLER
 const utilities = require("../utilities/") 
 const inventoryValidate = require("../utilities/inventory-validation")
 
-// --- Se eliminó la importación redundante 'inventoryController' ---
+// --- Redundant 'inventoryController' import removed previously ---
 
-// Route to build inventory by classification view
+// Route to build inventory by classification view (PUBLIC)
 // URL Example: /inv/type/Sport
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 
-// Route for Vehicle specifications.
+// Route for Vehicle specifications (PUBLIC).
 // URL Example: /inv/detail/10
 router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId));
 
-// Route to management view
-router.get("/", utilities.handleErrors(invController.buildManagement));
+// Route to management view (REQUIRES EMPLOYEE/ADMIN)
+router.get(
+    "/",
+    utilities.checkLogin, // Checks token validity and sets res.locals.loggedin
+    utilities.checkAccountType, // Checks if account_type is 'Employee' or 'Admin'
+    utilities.handleErrors(invController.buildManagement)
+);
 
-// Route to add classification view
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+// Route to add classification view (REQUIRES EMPLOYEE/ADMIN)
+router.get(
+    "/add-classification", 
+    utilities.checkLogin, 
+    utilities.checkAccountType, // Authorization check
+    utilities.handleErrors(invController.buildAddClassification)
+);
 
-// Route to process adding classification
+// Route to process adding classification (REQUIRES EMPLOYEE/ADMIN)
 router.post(
   "/add-classification",
+  utilities.checkLogin, 
+  utilities.checkAccountType, // Authorization check
   inventoryValidate.classificationRules(),
   inventoryValidate.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
 );
 
-// Route to add inventory view
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+// Route to add inventory view (REQUIRES EMPLOYEE/ADMIN)
+router.get(
+    "/add-inventory", 
+    utilities.checkLogin, 
+    utilities.checkAccountType, // Authorization check
+    utilities.handleErrors(invController.buildAddInventory)
+);
 
-// Route to process adding inventory
+// Route to process adding inventory (REQUIRES EMPLOYEE/ADMIN)
 router.post(
   "/add-inventory",
+  utilities.checkLogin, 
+  utilities.checkAccountType, // Authorization check
   inventoryValidate.inventoryRules(), 
   inventoryValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
 
-// Route to get inventory in JSON format for a specific classification
+// Route to get inventory in JSON format for a specific classification (PUBLIC/API)
 // URL Example: /inv/getInventory/1
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
 
-// Ruta para construir la vista de edición de un artículo del inventario.
-// Captura el inventoryId pasado en la URL (localhost:5500/inv/edit/#).
-// Esta ruta presentará una vista para permitir la edición del ítem.
+// Route to build the inventory item edit view (REQUIRES EMPLOYEE/ADMIN).
+// Captures the inventoryId passed in the URL (localhost:5500/inv/edit/#).
+// This route will present a view to allow editing the item.
 router.get(
   "/edit/:inventoryId",
+  utilities.checkLogin, 
+  utilities.checkAccountType, // Authorization check
   utilities.handleErrors(invController.buildEditInventory)
 );
 
+// Route to process inventory update (REQUIRES EMPLOYEE/ADMIN)
 router.post(
   "/update/",
+  utilities.checkLogin, 
+  utilities.checkAccountType, // Authorization check
   inventoryValidate.inventoryRules(), 
   inventoryValidate.checkUpdateData,
   utilities.handleErrors(invController.updateInventory)
 );
 
 // =========================================================
-// NEW ROUTE TO (DELETE)
+// NEW ROUTES FOR DELETION (REQUIRES EMPLOYEE/ADMIN)
 // =========================================================
 
-// Route GET to show confirmation of delete
-// :invId it´s URL parameter 
+// Route GET to show confirmation of delete view
+// :invId is a URL parameter 
 router.get(
   "/delete/:invId",
-  utilities.handleErrors(invController.buildDeleteView) // <-- CORREGIDO: Usando invController
+  utilities.checkLogin, 
+  utilities.checkAccountType, // Authorization check
+  utilities.handleErrors(invController.buildDeleteView) 
 );
 
-// Route POST to delete inventory
+// Route POST to process inventory deletion
 router.post(
   "/delete/",
-  utilities.handleErrors(invController.deleteInventory) // <-- CORREGIDO: Usando invController
+  utilities.checkLogin, 
+  utilities.checkAccountType, // Authorization check
+  utilities.handleErrors(invController.deleteInventory) 
 );
 
 module.exports = router;

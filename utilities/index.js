@@ -22,8 +22,6 @@ Util.getNav = async function () {
     let list = "<ul>"
     list += '<li><a href="/" title="Home page">Home</a></li>'
 
-    console.log("DEBUG - Home link generated:", list.substring(0, 50))
-
     // *****************************************************************
     // CRITICAL FIX: Add check for data and rows before attempting iteration
     // Esto previene el error 500 si la base de datos está vacía o si falla la consulta.
@@ -44,10 +42,6 @@ Util.getNav = async function () {
     }
 
     list += "</ul>"
-    
-    console.log("DEBUG - Final nav HTML length:", list.length)
-    console.log("DEBUG - First 200 chars:", list.substring(0, 200))
-    
     return list
   } catch (error) {
     console.error("Error in getNav:", error)
@@ -63,28 +57,28 @@ Util.buildClassificationGrid = async function(data){
   let grid
   if(data.length > 0){
     grid = '<ul id="inv-display">'
-    data.forEach(vehicle => { 
+    data.forEach(vehicle => {
       grid += '<li>'
-      grid +=   '<a href="../../inv/detail/'+ vehicle.inv_id 
-      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      grid +=   '<a href="../../inv/detail/'+ vehicle.inv_id
+      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model
+      + 'details"><img src="' + vehicle.inv_thumbnail
+      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model
       +' on CSE Motors" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
       grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
+      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View '
+      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'
       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
       grid += '</h2>'
-      grid += '<span>$' 
+      grid += '<span>$'
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
     })
     grid += '</ul>'
-  } else { 
-    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>' // Corregí la asignación de 'grid' que faltaba
+  } else {
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
 }
@@ -95,27 +89,27 @@ Util.buildClassificationGrid = async function(data){
 Util.buildDetailsHTML = async function(vehicle) {
     let detailHTML = '<div id="vehicle-detail-view">';
     
-    // Main content.
-    detailHTML += '<div class="vehicle-details-container">'; 
+    // Contenido principal.
+    detailHTML += '<div class="vehicle-details-container">';
 
-    // size image.
+    // Imagen.
     detailHTML += `<img src="${vehicle.inv_image}" alt="${vehicle.inv_make} ${vehicle.inv_model} image" class="detail-image">`;
 
-    // Container of information
-    detailHTML += '<div class="detail-info">'; 
+    // Contenedor de información
+    detailHTML += '<div class="detail-info">';
     
-    // Prominent Information
+    // Información destacada
     detailHTML += `<h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>`;
     
-    // The Price.
-    detailHTML += `<p class="price-detail">Price: **$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}**</p>`; 
+    // El Precio.
+    detailHTML += `<p class="price-detail">Price: **$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}**</p>`;
 
     detailHTML += '<ul class="detail-list">';
     
-    // The year.
+    // El año.
     detailHTML += `<li><span class="label">Year:</span> ${vehicle.inv_year}</li>`;
 
-    // (The mileage must display with proper place value commas.)
+    // Millas (debe mostrarse con comas)
     const rawMileage = vehicle.inv_miles;
     let formattedMileage;
 
@@ -129,7 +123,7 @@ Util.buildDetailsHTML = async function(vehicle) {
 
     detailHTML += `<li><span class="label">Mileage:</span> ${formattedMileage}</li>`;
 
-    // (All descriptive data must also be displayed, and following the image example).
+    // Descripción
     detailHTML += `<li><span class="label">Description:</span> ${vehicle.inv_description}</li>`;
     
     
@@ -137,9 +131,9 @@ Util.buildDetailsHTML = async function(vehicle) {
     detailHTML += `<li><span class="label">Number of Owners:</span> ${vehicle.inv_owners}</li>`;
     
     detailHTML += '</ul>';
-    detailHTML += '</div>'; 
-    detailHTML += '</div>'; 
-    detailHTML += '</div>'; 
+    detailHTML += '</div>';
+    detailHTML += '</div>';
+    detailHTML += '</div>';
     
     return detailHTML;
 }
@@ -170,7 +164,7 @@ Util.buildClassificationList = async function (classification_id = null) {
 }
 
 /* ****************************************
- * Middleware to check token validity
+ * Middleware to check token validity (Usado globalmente en server.js)
  **************************************** */
 Util.checkJWTToken = (req, res, next) => {
   if (req.cookies.jwt) {
@@ -193,8 +187,8 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /* ****************************************
- *  Check Login
- * ************************************ */
+ * Check Login (Usado para páginas restringidas)
+ ************************************ */
  Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
@@ -202,7 +196,25 @@ Util.checkJWTToken = (req, res, next) => {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+}
+
+/* ****************************************
+ * Middleware para verificar el tipo de cuenta para autorización
+ * Requisito de la Tarea 2/3: Solo permite acceso a 'Admin' o 'Employee'
+ ************************************ */
+Util.checkAccountType = (req, res, next) => {
+    // Se basa en res.locals.accountData configurado por checkJWTToken
+    const accountType = res.locals.accountData ? res.locals.accountData.account_type : null;
+    
+    // Verifica si el usuario está logueado Y tiene privilegios de 'Admin' o 'Employee'
+    if (res.locals.loggedin && (accountType === "Admin" || accountType === "Employee")) {
+        next();
+    } else {
+        req.flash("notice", "You do not have permission to access this page.");
+        // Redirige al dashboard de la cuenta o a la página principal
+        return res.redirect("/account/"); 
+    }
+}
 
 
 module.exports = Util

@@ -199,37 +199,174 @@ async function buildAccountManagement(req, res, next) {
 }
 
 /* ****************************************
- * Function: accountLogout
- * Description: Clears the JWT cookie and redirects the user to the home page.
- * Req: express request object
- * Res: express response object (clears cookie and redirects)
- *************************************** */
-async function accountLogout(req, res) {
-    try {
-        // Clear the JWT cookie (assuming the cookie holding the token is named 'jwt')
-        // The cookie must be cleared to effectively log out the user.
-        res.clearCookie("jwt"); 
+* Deliver update account view
+* *************************************** */
+async function buildAccountUpdate(req, res, next) {
+  try {
+    let nav = await utilities.getNav()
+    // Los datos de la cuenta se inyectan en res.locals por el middleware checkLogin
+    const accountData = res.locals.accountData;
+    const account_id = accountData.account_id; 
+    
+    // Usamos los datos de la sesión para pre-llenar el formulario
+    const account_firstname = accountData.account_firstname;
+    const account_lastname = accountData.account_lastname;
+    const account_email = accountData.account_email;
 
-        // Send a flash message to confirm logout
-        req.flash("notice", "You have been successfully logged out.");
+    res.render("account/update", {
+      title: "Update Account Information",
+      nav,
+      errors: null,
+      accountData: accountData, // Datos completos de la cuenta para usar en la vista
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
+    })
+  } catch (error) {
+    console.error("Build account update error:", error)
+    next(error)
+  }
+}
 
-        // Redirect the user back to the home page (where "My Account" will be visible)
-        res.redirect("/");
+/* ****************************************
+ * Process Account Information Update
+ * *************************************** */
+async function updateAccount(req, res) {
+    const { account_firstname, account_lastname, account_email, account_id } = req.body;
+    let nav = await utilities.getNav();
+    // Obtener los datos actuales de la cuenta desde res.locals
+    const accountData = res.locals.accountData; 
 
-    } catch (error) {
-        console.error("Logout failed:", error);
-        // If an error occurs, redirect home anyway
-        res.redirect("/");
-    }
+    // 1. Llamar al modelo para actualizar los datos
+    const updateResult = await accountModel.updateAccount(
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id
+    );
+
+    if (updateResult) {
+        // 2. Éxito: Re-obtener los datos actualizados y actualizar el token JWT de la cookie
+        const updatedAccountData = await accountModel.getAccountById(account_id);
+        delete updatedAccountData.account_password;
+
+        const accessToken = jwt.sign(
+            updatedAccountData,
+            process.env.ACCESS_TOKEN_SECRET || 'fallback_secret_for_development',
+            { expiresIn: 3600 * 1000 }
+        );
+        
+        const cookieOptions = {
+            httpOnly: true,
+            maxAge: 3600 * 1000
+        }
+        if (process.env.NODE_ENV !== 'development') {
+            cookieOptions.secure = true 
+        }
+
+        res.cookie("jwt", accessToken, cookieOptions);
+
+        req.flash("notice", "Account information updated successfully.");
+        return res.redirect("/account/");
+    } else {
+        // 3. Falla: Renderizar la vista de actualización con mensaje de error
+        req.flash("notice", "Update failed. Please try again.");
+        
+        return res.status(501).render("account/update", {
+            title: "Update Account Information",
+            nav,
+            errors: null, // Si falló después de la validación, errors es null.
+            accountData, // Datos originales de la cuenta
+            account_id,
+            // Re-pasar los datos introducidos por el usuario para pre-llenar el formulario
+            account_firstname,
+            account_lastname,
+            account_email,
+        });
+    }
+}
+
+/* ****************************************
+ * Process Password Change (REVISADO: Borra el JWT por seguridad)
+ * *************************************** */
+async function updatePassword(req, res) {
+    const { account_password, account_id } = req.body;
+    let nav = await utilities.getNav();
+    const accountData = res.locals.accountData; 
+
+    try {
+        // 1. Hashear la nueva contraseña
+        const hashedPassword = await bcrypt.hash(account_password, 10);
+
+        // 2. Llamar al modelo para actualizar la contraseña
+        const updateResult = await accountModel.updatePassword(
+            hashedPassword,
+            account_id
+        );
+
+        if (updateResult) {
+            // Éxito: Borrar el JWT y forzar el re-login por seguridad.
+            res.clearCookie("jwt");
+            
+            req.flash("notice", "Password updated successfully. For security reasons, please log in again with your new password.");
+            
+            // Redirigir a la vista de login
+            return res.redirect("/account/login");
+        } else {
+            // 3. Falla: Renderizar la vista de actualización con mensaje de error
+            req.flash("notice", "Password update failed. Please try again.");
+            return res.status(501).render("account/update", {
+                title: "Update Account Information",
+                nav,
+                errors: null, 
+                accountData,
+                account_id,
+            });
+        }
+    } catch (error) {
+        console.error("Password update error in controller:", error);
+        req.flash("notice", "An unexpected error occurred during password update.");
+        return res.status(500).render("account/update", {
+            title: "Update Account Information",
+            nav,
+            errors: null,
+            accountData,
+            account_id,
+        });
+    }
 }
 
 
-// MODIFIED! Ensures the new accountLogout and buildAccountManagement functions are exported
+/* ****************************************
+ * Function: accountLogout
+ * Description: Clears the JWT cookie and redirects the user to the home page.
+ *************************************** */
+async function accountLogout(req, res) {
+    try {
+        // Clear the JWT cookie 
+        res.clearCookie("jwt"); 
+
+        req.flash("notice", "You have been successfully logged out.");
+
+        res.redirect("/");
+
+    } catch (error) {
+        console.error("Logout failed:", error);
+        res.redirect("/");
+    }
+}
+
+
+// EXPORTS: 
 module.exports = { 
   buildLogin, 
   buildRegistration, 
   registerAccount,
   accountLogin,
   buildAccountManagement,
-  accountLogout // <--- ¡NUEVA EXPORTACIÓN!
+  buildAccountUpdate, 
+  updateAccount, 
+  updatePassword, // El nombre de la función ahora coincide con el que ya tenías
+  accountLogout 
 }

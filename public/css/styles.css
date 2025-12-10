@@ -226,6 +226,9 @@ h1 {
     flex-direction: column;
     gap: 20px;
 }
+.account-management-container a {
+  color: var(--fifth-color);
+}
 
 .management-btn {
     display: block;
@@ -277,6 +280,8 @@ h1 {
 .welcome-message h2 {
     color: var(--four-color);
     margin-top: 0;
+    font-size: 1.3rem;
+    text-align: justify;
 }
 
 .welcome-message p {
@@ -289,9 +294,27 @@ h1 {
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
     text-align: center;
+    border-left: 4px solid var(--green-button);
 }
 
 .account-actions p {
+    font-style: italic;
+    color: #bdc3c7;
+}
+
+.account-actions a {
+    justify-content: center;
+}
+.inventory-management {
+    padding: 1.5rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 10px;
+    border-left: 4px solid var(--green-button);
+}
+
+.inventory-management p {
     font-style: italic;
     color: #bdc3c7;
 }
@@ -935,6 +958,10 @@ a {
     color: var(--four-color);
   }
 
+  .account-management-container {
+  margin: 10px;
+}
+
 /*************************************************
  * 4. FOOTER STYLES
  *************************************************/
@@ -1108,7 +1135,13 @@ footer {
     color: var(--second-color);
   }
 
-    
+  .form-description {
+      color: var(--text-dark);
+      font-style: italic;
+      text-align: justify;
+      padding: 6px;
+    }
+
     footer {
     padding: 15px 0;
     border-top: 1px solid var(--text-light);
@@ -1243,6 +1276,13 @@ body .main-content-error {
 
     #inventoryDisplay table {
         min-width: 700px; /* Asegura que la tabla se mantenga legible */
+    }
+
+    .form-description {
+      color: var(--text-dark);
+      font-style: italic;
+      text-align: justify;
+      padding: 6px;
     }
 
   }
