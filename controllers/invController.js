@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities/")
+// IMPORTANT: Need this line to handle validation errors from middleware
+const { validationResult } = require("express-validator") 
 
 const invCont = {}
 
@@ -268,7 +270,7 @@ invCont.buildEditInventory = async function (req, res, next) {
         res.render("./inventory/update-inventory", { 
             title: "Edit " + itemName,
             nav,
-            // FIX: Changed 'classificationList' back to 'classificationSelect' to match the EJS view
+            // FIX: Use 'classificationSelect' to match the EJS view
             classificationSelect: classificationSelect, 
             errors: null,
             // Data fields from the itemData object
@@ -294,35 +296,101 @@ invCont.buildEditInventory = async function (req, res, next) {
  * Update Inventory Data
  * ************************** */
 invCont.updateInventory = async function (req, res, next) {
-    try {
-        let nav = await utilities.getNav()
-        const {
-            inv_id,
-            inv_make,
-            inv_model,
-            inv_description,
-            inv_image,
-            inv_thumbnail,
-            inv_price,
-            inv_year,
-            inv_miles,
-            inv_color,
-            classification_id,
-        } = req.body
+    // 🚨 DEBUG CRÍTICO: Muestra todo lo que se recibió del formulario
+    console.log("--- FORM DATA RECEIVED (req.body) ---");
+    console.log(req.body);
+    console.log("-------------------------------------");
 
-        // Call the model function to perform the update
+    // 1. Get and check validation results
+    let errors = validationResult(req)
+
+    let nav = await utilities.getNav()
+    const {
+        inv_id,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color,
+        classification_id,
+    } = req.body
+
+    // Helper function for robust numeric sanitization: converts '', null, or undefined to null
+    // If the database column is NOT NULL, you must ensure the model handles receiving a NULL value 
+    // or set a default value like 0 here. For safety, we convert to null if empty.
+    const sanitizeNumeric = (value, parser) => {
+        if (value === '' || value === null || value === undefined) {
+            return null;
+        }
+        // Ensure that the parsed value is not NaN (if text was entered)
+        const parsedValue = parser(value);
+        return isNaN(parsedValue) ? null : parsedValue;
+    };
+
+
+    // 🚨 APPLY ROBUST SANITIZATION to ALL numeric fields, including inv_id
+    const sanitizedInvId = sanitizeNumeric(inv_id, parseInt);
+    const sanitizedClassificationId = sanitizeNumeric(classification_id, parseInt);
+    const sanitizedPrice = sanitizeNumeric(inv_price, parseFloat);
+    const sanitizedYear = sanitizeNumeric(inv_year, parseInt);
+    const sanitizedMiles = sanitizeNumeric(inv_miles, parseInt);
+    
+    // We must ensure the ID is valid for the update query
+    if (sanitizedInvId === null) {
+        // If inv_id is null/invalid, the update cannot proceed.
+        // This suggests a form error (hidden field missing/empty).
+        req.flash("notice", "Error: Vehicle ID is missing for update.")
+        return res.redirect("/inv/")
+    }
+
+
+    // 2. If there are validation errors (or if the database model requires NOT NULL)
+    if (!errors.isEmpty()) {
+        // Re-use the sanitized classification ID for the sticky select list
+        const classificationSelect = await utilities.buildClassificationList(sanitizedClassificationId)
+        const itemName = `${inv_make} ${inv_model}`
+        
+        // Re-render the edit view with errors and sticky data
+        return res.status(400).render("./inventory/update-inventory", {
+            title: "Edit " + itemName,
+            nav,
+            classificationSelect: classificationSelect, 
+            errors: errors, // Pass validation errors
+            // Pass the original non-sanitized string values back for the sticky form fields,
+            // EXCEPT for the classification_id, which needs the sanitized ID for selection.
+            inv_id: inv_id,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color,
+            classification_id: sanitizedClassificationId 
+        })
+    }
+
+    // 3. If no errors, attempt the update
+    try {
+        // Call the model with the sanitized values
         const updateResult = await invModel.updateInventory(
-            inv_id,  
+            sanitizedInvId,  // Use sanitized ID
             inv_make,
             inv_model,
             inv_description,
             inv_image,
             inv_thumbnail,
-            inv_price,
-            inv_year,
-            inv_miles,
+            sanitizedPrice, // Use sanitized price
+            sanitizedYear,  // Use sanitized year
+            sanitizedMiles, // Use sanitized miles
             inv_color,
-            classification_id
+            sanitizedClassificationId // Use sanitized classification ID
         )
 
         if (updateResult) {
@@ -331,19 +399,19 @@ invCont.updateInventory = async function (req, res, next) {
             // Redirect to the management view on success
             res.redirect("/inv/")
         } else {
-            // Rebuild the classification list with the attempted classification selected
-            const classificationSelect = await utilities.buildClassificationList(classification_id) // Renamed variable locally
+            // Model failure (DB error not caught by try/catch or no rows updated)
+            const classificationSelect = await utilities.buildClassificationList(sanitizedClassificationId)
             const itemName = `${inv_make} ${inv_model}`
-            req.flash("notice", "Sorry, the update failed.")
+            req.flash("notice", "Sorry, the update failed (DB Model Error).")
             
-            // Render the edit view on failure (status 501 - Not Implemented/Server Error)
+            // Re-render the edit view on model failure
             res.status(501).render("./inventory/update-inventory", {
                 title: "Edit " + itemName,
                 nav,
-                // FIX: Use 'classificationSelect' to match the EJS view
                 classificationSelect: classificationSelect, 
-                errors: null, // Errors were handled by the middleware, but passing null for consistency
-                inv_id,
+                errors: null,
+                // Pass back the original request body data (which may contain strings)
+                inv_id: inv_id, 
                 inv_make,
                 inv_model,
                 inv_year,
@@ -353,10 +421,11 @@ invCont.updateInventory = async function (req, res, next) {
                 inv_price,
                 inv_miles,
                 inv_color,
-                classification_id
+                classification_id: sanitizedClassificationId
             })
         }
     } catch (error) {
+        // Catch unexpected errors (e.g., connection issues)
         console.error("Update inventory error:", error)
         next(error)
     }

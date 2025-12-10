@@ -1,166 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/css/styles.css" />
-  </head>
-  <body>
-    <main>
-      <h1 class="add-inventory-h1"><%= title %></h1>
+<!-- Flash Messages -->
+  <%- messages() %> 
+  
+  <% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+  <% } %>
 
-      <!-- Flash Messages -->
-      <%- messages() %> <% if (errors) { %>
-      <ul class="notice">
-        <% errors.array().forEach(error => { %>
-        <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
-      <% } %>
+  <div class="form-container">
+    <!-- ACCIÓN DEL FORMULARIO DINÁMICA -->
+    <!-- Si locals.inv_id existe, usa /inv/update. Si no existe (estamos agregando), usa /inv/add-inventory. -->
+    <form id="inventoryForm" action="<%= locals.inv_id ? '/inv/update' : '/inv/add-inventory' %>" method="post">
+      
+      <!-- Classification -->
+      <div class="input-group">
+        <label for="classificationSelect">Classification:</label>
+        <%- classificationList %>
+      </div>
 
-      <div class="form-container">
-        <!-- ACCIÓN DEL FORMULARIO CAMBIADA a /inv/update -->
-        <form id="editInventoryForm" action="/inv/update" method="post">
-          <!-- Classification -->
-          <div class="input-group">
-            <label for="classificationSelect">Classification:</label>
-            <!-- Se utiliza classificationSelect para la preselección -->
-            <%- classificationList %>
-          </div>
+      <!-- Make -->
+      <div class="input-group">
+        <label for="inv_make">Make:</label>
+        <input
+          type="text"
+          id="inv_make"
+          name="inv_make"
+          required
+          placeholder="Enter vehicle make"
+          value="<%= locals.inv_make || '' %>"
+        />
+      </div>
 
-          <!-- Make -->
-          <div class="input-group">
-            <label for="inv_make">Make:</label>
-            <input
-              type="text"
-              id="inv_make"
-              name="inv_make"
-              required
-              placeholder="Enter vehicle make"
-              value="<%= locals.inv_make || '' %>"
-            />
-          </div>
+      <!-- Model -->
+      <div class="input-group">
+        <label for="inv_model">Model:</label>
+        <input
+          type="text"
+          id="inv_model"
+          name="inv_model"
+          required
+          placeholder="Enter vehicle model"
+          value="<%= locals.inv_model || '' %>"
+        />
+      </div>
 
-          <!-- Model -->
-          <div class="input-group">
-            <label for="inv_model">Model:</label>
-            <input
-              type="text"
-              id="inv_model"
-              name="inv_model"
-              required
-              placeholder="Enter vehicle model"
-              value="<%= locals.inv_model || '' %>"
-            />
-          </div>
-
-          <!-- Description -->
-          <div class="input-group">
-            <label for="inv_description">Description:</label>
-            <textarea
-              id="inv_description"
-              name="inv_description"
-              required
-              placeholder="Enter vehicle description"
-              rows="4"
-            >
+      <!-- Description -->
+      <div class="input-group">
+        <label for="inv_description">Description:</label>
+        <textarea
+          id="inv_description"
+          name="inv_description"
+          required
+          placeholder="Enter vehicle description"
+          rows="4"
+        >
 
 
 <%= locals.inv_description || '' %></textarea
-            >
-          </div>
+>
+</div>
 
-          <!-- Image Path -->
-          <div class="input-group">
-            <label for="inv_image">Image Path:</label>
-            <input
-              type="text"
-              id="inv_image"
-              name="inv_image"
-              required
-              placeholder="/images/vehicles/no-image.jpg"
-              value="<%= locals.inv_image || '/images/vehicles/no-image.jpg' %>"
-            />
-          </div>
-
-          <!-- Thumbnail Path -->
-          <div class="input-group">
-            <label for="inv_thumbnail">Thumbnail Path:</label>
-            <input
-              type="text"
-              id="inv_thumbnail"
-              name="inv_thumbnail"
-              required
-              placeholder="/images/vehicles/no-image-tn.jpg"
-              value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.jpg' %>"
-            />
-          </div>
-
-          <!-- Price -->
-          <div class="input-group">
-            <label for="inv_price">Price:</label>
-            <input
-              type="number"
-              id="inv_price"
-              name="inv_price"
-              required
-              step="0.01"
-              min="0"
-              placeholder="Enter price"
-              value="<%= locals.inv_price || '' %>"
-            />
-          </div>
-
-          <!-- Year -->
-          <div class="input-group">
-            <label for="inv_year">Year:</label>
-            <input
-              type="number"
-              id="inv_year"
-              name="inv_year"
-              required
-              min="1900"
-              max="2030"
-              placeholder="Enter year"
-              value="<%= locals.inv_year || '' %>"
-            />
-          </div>
-
-          <!-- Miles -->
-          <div class="input-group">
-            <label for="inv_miles">Miles:</label>
-            <input
-              type="number"
-              id="inv_miles"
-              name="inv_miles"
-              required
-              min="0"
-              placeholder="Enter miles"
-              value="<%= locals.inv_miles || '' %>"
-            />
-          </div>
-
-          <!-- Color -->
-          <div class="input-group">
-            <label for="inv_color">Color:</label>
-            <input
-              type="text"
-              id="inv_color"
-              name="inv_color"
-              required
-              placeholder="Enter color"
-              value="<%= locals.inv_color || '' %>"
-            />
-          </div>
-
-          <!-- CAMPO OCULTO para inv_id (ESENCIAL para la actualización) -->
-          <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />
-
-          <!-- VALOR DEL BOTÓN CAMBIADO a "Update Vehicle" -->
-          <button type="submit" class="btn-submit">Update Vehicle</button>
-        </form>
+      <!-- Image Path -->
+      <div class="input-group">
+        <label for="inv_image">Image Path:</label>
+        <input
+          type="text"
+          id="inv_image"
+          name="inv_image"
+          required
+          placeholder="/images/vehicles/no-image.jpg"
+          value="<%= locals.inv_image || '/images/vehicles/no-image.jpg' %>"
+        />
       </div>
-    </main>
-  </body>
+
+      <!-- Thumbnail Path -->
+      <div class="input-group">
+        <label for="inv_thumbnail">Thumbnail Path:</label>
+        <input
+          type="text"
+          id="inv_thumbnail"
+          name="inv_thumbnail"
+          required
+          placeholder="/images/vehicles/no-image-tn.jpg"
+          value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.jpg' %>"
+        />
+      </div>
+
+      <!-- Price -->
+      <div class="input-group">
+        <label for="inv_price">Price:</label>
+        <input
+          type="number"
+          id="inv_price"
+          name="inv_price"
+          required
+          step="0.01"
+          min="0"
+          placeholder="Enter price"
+          value="<%= locals.inv_price || '' %>"
+        />
+      </div>
+
+      <!-- Year -->
+      <div class="input-group">
+        <label for="inv_year">Year:</label>
+        <input
+          type="number"
+          id="inv_year"
+          name="inv_year"
+          required
+          min="1900"
+          max="2030"
+          placeholder="Enter year"
+          value="<%= locals.inv_year || '' %>"
+        />
+      </div>
+
+      <!-- Miles -->
+      <div class="input-group">
+        <label for="inv_miles">Miles:</label>
+        <input
+          type="number"
+          id="inv_miles"
+          name="inv_miles"
+          required
+          min="0"
+          placeholder="Enter miles"
+          value="<%= locals.inv_miles || '' %>"
+        />
+      </div>
+
+      <!-- Color -->
+      <div class="input-group">
+        <label for="inv_color">Color:</label>
+        <input
+          type="text"
+          id="inv_color"
+          name="inv_color"
+          required
+          placeholder="Enter color"
+          value="<%= locals.inv_color || '' %>"
+        />
+      </div>
+
+      <!-- BOTÓN DE ENVÍO DINÁMICO -->
+      <button type="submit" class="btn-submit">
+        <%= locals.inv_id ? "Update Vehicle" : "Add Vehicle" %>
+      </button>
+
+      <!-- CAMPO OCULTO para inv_id (SOLO SI ESTAMOS ACTUALIZANDO) -->
+      <% if (locals.inv_id) { %>
+        <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />
+      <% } %>
+      
+    </form>
+  </div>
+</main>
+</body>
 </html>

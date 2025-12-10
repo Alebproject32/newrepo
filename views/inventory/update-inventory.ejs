@@ -1,37 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
+       
   <head>
+               
     <meta charset="UTF-8" />
+               
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+               
     <title><%= title %></title>
+               
+    <!-- Asegúrate de que este archivo CSS existe y es accesible -->
+               
     <link rel="stylesheet" href="/css/styles.css" />
+           
   </head>
+       
   <body>
+               
     <main>
+                       
       <h1 class="update-inventory-h1"><%= title %></h1>
 
+                       
       <!-- Flash Messages -->
-      <%- messages() %> <% if (errors) { %>
+                  <%- messages() %> <% if (errors) { %>            
       <ul class="notice">
-        <% errors.array().forEach(error => { %>
+                        <% errors.array().forEach(error => { %>                
         <li><%= error.msg %></li>
-        <% }) %>
+                        <% }) %>            
       </ul>
-      <% } %>
-
+                  <% } %>            
       <div class="form-container">
-        <!-- ACCIÓN DEL FORMULARIO CAMBIADA a /inv/update -->
-        <form id="buildEditInventory" action="./inv/update" method="post">
+                               
+        <!-- 1. ID añadido: updateForm -->
+               
+        <form id="updateForm" action="/inv/update" method="post">
+                                       
           <!-- Classification -->
+                                       
           <div class="input-group">
-            <label for="classificationSelect">Classification:</label>
+                                               
+            <label for="classificationSelect">Classification:</label>          
+                                     
             <!-- Se utiliza classificationSelect para la preselección -->
-            <%- classificationSelect %>
+                                    <%- classificationSelect %>                
+               
           </div>
 
+                                       
           <!-- Make -->
+                                       
           <div class="input-group">
-            <label for="inv_make">Make:</label>
+                                    <label for="inv_make">Make:</label>        
+                           
             <input
               type="text"
               id="inv_make"
@@ -40,11 +61,15 @@
               placeholder="Enter vehicle make"
               value="<%= locals.inv_make || '' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Model -->
+                                       
           <div class="input-group">
-            <label for="inv_model">Model:</label>
+                                    <label for="inv_model">Model:</label>      
+                             
             <input
               type="text"
               id="inv_model"
@@ -53,11 +78,16 @@
               placeholder="Enter vehicle model"
               value="<%= locals.inv_model || '' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Description -->
+                                       
           <div class="input-group">
-            <label for="inv_description">Description:</label>
+                                   
+            <label for="inv_description">Description:</label>                  
+                             
             <textarea
               id="inv_description"
               name="inv_description"
@@ -65,15 +95,17 @@
               placeholder="Enter vehicle description"
               rows="4"
             >
-
-
 <%= locals.inv_description || '' %></textarea
             >
+                                           
           </div>
 
+                                       
           <!-- Image Path -->
+                                       
           <div class="input-group">
-            <label for="inv_image">Image Path:</label>
+                                    <label for="inv_image">Image Path:</label>  
+                                 
             <input
               type="text"
               id="inv_image"
@@ -82,11 +114,16 @@
               placeholder="/images/vehicles/no-image.jpg"
               value="<%= locals.inv_image || '/images/vehicles/no-image.jpg' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Thumbnail Path -->
+                                       
           <div class="input-group">
-            <label for="inv_thumbnail">Thumbnail Path:</label>
+                                   
+            <label for="inv_thumbnail">Thumbnail Path:</label>                  
+                             
             <input
               type="text"
               id="inv_thumbnail"
@@ -95,11 +132,15 @@
               placeholder="/images/vehicles/no-image-tn.jpg"
               value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.jpg' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Price -->
+                                       
           <div class="input-group">
-            <label for="inv_price">Price:</label>
+                                    <label for="inv_price">Price:</label>      
+                             
             <input
               type="number"
               id="inv_price"
@@ -110,11 +151,15 @@
               placeholder="Enter price"
               value="<%= locals.inv_price || '' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Year -->
+                                       
           <div class="input-group">
-            <label for="inv_year">Year:</label>
+                                    <label for="inv_year">Year:</label>        
+                           
             <input
               type="number"
               id="inv_year"
@@ -125,11 +170,15 @@
               placeholder="Enter year"
               value="<%= locals.inv_year || '' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Miles -->
+                                       
           <div class="input-group">
-            <label for="inv_miles">Miles:</label>
+                                    <label for="inv_miles">Miles:</label>      
+                             
             <input
               type="number"
               id="inv_miles"
@@ -139,11 +188,15 @@
               placeholder="Enter miles"
               value="<%= locals.inv_miles || '' %>"
             />
+                                           
           </div>
 
+                                       
           <!-- Color -->
+                                       
           <div class="input-group">
-            <label for="inv_color">Color:</label>
+                                    <label for="inv_color">Color:</label>      
+                             
             <input
               type="text"
               id="inv_color"
@@ -152,16 +205,29 @@
               placeholder="Enter color"
               value="<%= locals.inv_color || '' %>"
             />
+                                           
           </div>
+                                       
+          <!-- 2. Atributo disabled añadido al botón -->
+                   
+          <button type="submit" class="btn-submit" disabled>
+            Update Vehicle
+          </button>
 
-          <!-- CAMPO OCULTO para inv_id (ESENCIAL para la actualización) -->
-          <input type="hidden" name="inv_id" <% if(locals.inv_id) { % />
-          value="<%= locals.inv_id %>" <% } %>>
-
-          <!-- VALOR DEL BOTÓN CAMBIADO a "Update Vehicle" -->
-          <button type="submit" class="btn-submit">Update Vehicle</button>
+                                       
+          <!-- CAMPO OCULTO (Corregido y Limpio) -->
+                                       
+          <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />    
+                               
         </form>
+                           
       </div>
+                   
     </main>
+             
+    <!-- 3. Enlace al archivo JavaScript al final del cuerpo -->
+       
+    <script src="/js/inv-update.js"></script>
+           
   </body>
 </html>

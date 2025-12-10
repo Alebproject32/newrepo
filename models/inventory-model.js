@@ -29,19 +29,22 @@ async function getInventoryByClassificationId(classification_id) {
 
 /* ***************************
  * Get inventory item by inventory_id (Used for details and editing)
+ * * CORRECCIÓN: Se eliminó la indentación interna de la consulta SQL 
+ * para evitar el error 'syntax error at or near " "'.
  * ************************** */
 async function getInventoryByInvId(inv_id) {
   try {
     // Query to get all vehicle details, including inv_miles
     const data = await pool.query(
       `SELECT 
-        inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, 
-        inv_thumbnail, inv_price, inv_miles, inv_color, classification_id 
-      FROM public.inventory
-      WHERE inv_id = $1`,
+inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, 
+inv_thumbnail, inv_price, inv_miles, inv_color, classification_id 
+FROM public.inventory
+WHERE inv_id = $1`,
       [inv_id]
     )
-    return data.rows[0]
+    // Se elimina el código de depuración (console.log) para el código final
+    return data.rows[0] 
   } catch (error) {
     console.error("getInventoryByInvId error " + error)
     throw error 
@@ -150,5 +153,5 @@ module.exports = {
   getInventoryByInvId,
   addClassification,
   addInventory,
-  updateInventory // Added the new function here
+  updateInventory
 };
