@@ -76,6 +76,10 @@
       color: var(--primary-light);
     }
 
+    .inventoryForm .input-group label {
+      color: var(--primary-dark);
+    }
+
     .input-group {
       display: flex;
       flex-direction: column;
@@ -106,10 +110,61 @@
       transition: box-shadow 0.3s;
     }
 
+    .input-group input .accountFirstName .accountLastName {
+      color: var(--dark-container);
+    }
+
+    .input-group input .accountEmail {
+      color: var(--dark-container);
+    }
+
+    input#accountEmail {
+      color: var(--dark-container);
+    }
+
     .input-group input:focus {
       outline: none;
       box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5); /*0 0 0 3px rgba(52, 152, 219, 0.5), Blue glow on focus */
     }
+
+    .group1 label {
+      color: var(--primary-dark);
+      font-weight: bold;
+    }
+    
+
+    .group1 {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .group2 label {
+      color: var(--primary-dark);
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+    }
+
+    .group2 {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+    }
+
+    .form-group label {
+      color: var(--primary-dark);
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 1.0rem;
+    }
+
+
 
     /* Button Styling */
     .btn-primary {
@@ -185,7 +240,7 @@
     /* Example specific styles for errors/notices */
     .error, .notice {
       background-color: var(--white-color); /* Red for errors/notices */
-      color: var(rgb(255, 0, 0));
+      color: var(--red-color);
       padding: 10px;
       margin: 15px 0;
       border-radius: 5px;
@@ -373,7 +428,7 @@
       font-weight: bold;
       margin-bottom: 8px;
       font-size: 0.9em;
-      color: var(--primary-dark);
+      color: var(--white-color);
     }
 
     .input-group input {
@@ -394,6 +449,14 @@
     .add-inventory-h1 {
       text-align: center;
       margin: 2rem;
+    }
+
+    .input-group label .accountEmail{
+      color: var(--text-dark);
+    }
+
+    .input-group input .accountLastName{
+      color: var(--text-dark);
     }
 
     .input-group1 {

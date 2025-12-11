@@ -36,7 +36,7 @@
                                        
           <!-- Classification -->
                                        
-          <div class="input-group">
+          <div class="group1">
                                                
             <label for="classificationSelect">Classification:</label>          
                                      
@@ -48,7 +48,7 @@
                                        
           <!-- Make -->
                                        
-          <div class="input-group">
+          <div class="group1">
                                     <label for="inv_make">Make:</label>        
                            
             <input
@@ -65,7 +65,7 @@
                                        
           <!-- Model -->
                                        
-          <div class="input-group">
+          <div class="group1">
                                     <label for="inv_model">Model:</label>      
                              
             <input
@@ -82,7 +82,7 @@
                                        
           <!-- Description -->
                                        
-          <div class="input-group">
+          <div class="group1">
                                    
             <label for="inv_description">Description:</label>                  
                              
@@ -101,7 +101,7 @@
                                        
           <!-- Image Path -->
                                        
-          <div class="input-group">
+          <div class="group1">
                                     <label for="inv_image">Image Path:</label>  
                                  
             <input
@@ -118,7 +118,7 @@
                                        
           <!-- Thumbnail Path -->
                                        
-          <div class="input-group">
+          <div class="group1">
                                    
             <label for="inv_thumbnail">Thumbnail Path:</label>                  
                              
@@ -136,9 +136,8 @@
                                        
           <!-- Price -->
                                        
-          <div class="input-group">
-                                    <label for="inv_price">Price:</label>      
-                             
+          <div class="group1">
+            <label for="inv_price">Price:</label>
             <input
               type="number"
               id="inv_price"
@@ -149,15 +148,13 @@
               placeholder="Enter price"
               value="<%= locals.inv_price || '' %>"
             />
-                                           
+                                   
           </div>
-
-                                       
+                         
           <!-- Year -->
-                                       
-          <div class="input-group">
-                                    <label for="inv_year">Year:</label>        
-                           
+                               
+          <div class="group1">
+                <label for="inv_year">Year:</label>     
             <input
               type="number"
               id="inv_year"
@@ -167,16 +164,12 @@
               max="2030"
               placeholder="Enter year"
               value="<%= locals.inv_year || '' %>"
-            />
-                                           
+            />                           
           </div>
-
-                                       
-          <!-- Miles -->
-                                       
-          <div class="input-group">
-                                    <label for="inv_miles">Miles:</label>      
-                             
+                         
+          <!-- Miles -->                           
+          <div class="group1">
+            <label for="inv_miles">Miles:</label>             
             <input
               type="number"
               id="inv_miles"
@@ -188,13 +181,10 @@
             />
                                            
           </div>
-
-                                       
-          <!-- Color -->
-                                       
-          <div class="input-group">
-                                    <label for="inv_color">Color:</label>      
-                             
+                         
+          <!-- Color -->                           
+          <div class="group1">
+            <label for="inv_color">Color:</label>                   
             <input
               type="text"
               id="inv_color"
@@ -205,27 +195,19 @@
             />
                                            
           </div>
-                                       
           <!-- 2. Atributo disabled añadido al botón -->
-                   
           <button type="submit" class="btn-submit" disabled>
             Update Vehicle
           </button>
-
-                                       
           <!-- CAMPO OCULTO (Corregido y Limpio) -->
-                                       
           <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />    
-                               
+                         
         </form>
-                           
+                       
       </div>
-                   
+             
     </main>
-             
     <!-- 3. Enlace al archivo JavaScript al final del cuerpo -->
-       
     <script src="/js/inv-update.js"></script>
-           
   </body>
 </html>

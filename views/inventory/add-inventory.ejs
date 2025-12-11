@@ -15,13 +15,13 @@
     <form id="inventoryForm" action="<%= locals.inv_id ? '/inv/update' : '/inv/add-inventory' %>" method="post">
       
       <!-- Classification -->
-      <div class="input-group">
+      <div class="group2">
         <label for="classificationSelect">Classification:</label>
         <%- classificationList %>
       </div>
 
       <!-- Make -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_make">Make:</label>
         <input
           type="text"
@@ -34,7 +34,7 @@
       </div>
 
       <!-- Model -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_model">Model:</label>
         <input
           type="text"
@@ -47,7 +47,7 @@
       </div>
 
       <!-- Description -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_description">Description:</label>
         <textarea
           id="inv_description"
@@ -63,7 +63,7 @@
 </div>
 
       <!-- Image Path -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_image">Image Path:</label>
         <input
           type="text"
@@ -76,7 +76,7 @@
       </div>
 
       <!-- Thumbnail Path -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_thumbnail">Thumbnail Path:</label>
         <input
           type="text"
@@ -89,7 +89,7 @@
       </div>
 
       <!-- Price -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_price">Price:</label>
         <input
           type="number"
@@ -104,7 +104,7 @@
       </div>
 
       <!-- Year -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_year">Year:</label>
         <input
           type="number"
@@ -119,7 +119,7 @@
       </div>
 
       <!-- Miles -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_miles">Miles:</label>
         <input
           type="number"
@@ -133,7 +133,7 @@
       </div>
 
       <!-- Color -->
-      <div class="input-group">
+      <div class="group2">
         <label for="inv_color">Color:</label>
         <input
           type="text"
