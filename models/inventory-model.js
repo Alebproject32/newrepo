@@ -29,8 +29,6 @@ async function getInventoryByClassificationId(classification_id) {
 
 /* ***************************
  * Get inventory item by inventory_id (Used for details and editing)
- * * CORRECCIÓN: Se eliminó la indentación interna de la consulta SQL 
- * para evitar el error 'syntax error at or near " "'.
  * ************************** */
 async function getInventoryByInvId(inv_id) {
     try {
@@ -160,6 +158,59 @@ async function deleteInventoryItem(inv_id) {
     }
 }
 
+/* ***************************
+ * Get all reviews for a specific inventory item (inv_id)
+ * ************************** */
+async function getReviewsByInvId(inv_id) {
+    try {
+        // Consulta para obtener todas las reseñas, el nombre y el apellido del autor.
+        const data = await pool.query(
+            `SELECT 
+                r.review_text,
+                r.review_date,
+                a.account_firstname,
+                a.account_lastname
+            FROM review r
+            JOIN account a
+            ON r.account_id = a.account_id
+            WHERE r.inv_id = $1
+            ORDER BY r.review_date DESC`,
+            [inv_id]
+        )
+        return data.rows
+    } catch (error) {
+        console.error("getReviewsByInvId error: " + error)
+        throw error
+    }
+}
+
+/* ***************************
+ * Insert a new review into the database
+ * ************************** */
+async function insertReview(review_text, inv_id, account_id) {
+    try {
+        // La columna review_date se establece por defecto a NOW() en la base de datos
+        const sql = `INSERT INTO review (
+            review_text, 
+            inv_id, 
+            account_id
+        ) VALUES ($1, $2, $3) RETURNING *`
+
+        const result = await pool.query(sql, [
+            review_text,
+            inv_id,
+            account_id
+        ])
+        
+        // Retorna la fila insertada o undefined si falla
+        return result.rows[0]
+    } catch (error) {
+        console.error("insertReview model error:", error)
+        // Lanza el error para ser manejado por el controlador
+        throw new Error("Database insertion failed for review.")
+    }
+}
+
 
 /* ***************************
  * Export functions
@@ -171,5 +222,7 @@ module.exports = {
     addClassification,
     addInventory,
     updateInventory,
-    deleteInventoryItem // <-- New function exported
+    deleteInventoryItem, 
+    getReviewsByInvId,      // <-- Nuevo: Obtener reseñas
+    insertReview            // <-- Nuevo: Insertar reseña
 };

@@ -1,11 +1,97 @@
 <%# views/inventory/detail.ejs %> <%# Heading %>
 <h1><%= title %></h1>
 
-<%# Framework of HTML %> <%- detailHTML %> <%# Professional view %>
+<%# Display Inventory Item Details (rendered by utilities.buildDetailsHTML) %>
+<%- detailHTML %>
+
 <p class="professional-note">
   All vehicles are certified and have passed a thorough inspection.
 </p>
 
+<!-- ========================================================= -->
+<!-- NEW: REVIEWS SECTION START -->
+<!-- ========================================================= -->
+
+<div id="review-section">
+  <h2 class="section-title">Customer Reviews</h2>
+
+  <!-- Mostrar errores de validación si existen -->
+  <%- locals.errors ? utilities.buildErrorList(errors) : '' %>
+
+  <!-- 1. REVIEW SUBMISSION FORM (Visible only if the user is logged in) -->
+  <% if (locals.loggedin) { %>
+  <div class="review-form-card">
+    <h3 class="form-title">Share Your Experience</h3>
+
+    <% const accountData = locals.accountData; const screenName =
+    accountData.account_firstname + "_" +accountData.account_lastname; %>
+
+    <p class="user-display">
+      You are posting as: <strong><%= screenName %></strong>
+    </p>
+
+    <form action="/reviews/add-review" method="POST">
+      <div class="form-group">
+        <label for="review_text">Your Review:</label>
+        <textarea
+          id="review_text"
+          name="review_text"
+          rows="4"
+          required
+          class="form-input textarea-input"
+        >
+<%= locals.review_text || '' %></textarea
+        >
+      </div>
+
+      <div class="form-group rating-group">
+        <label for="review_rating">Rating (1-5):</label>
+        <input
+          type="number"
+          id="review_rating"
+          name="review_rating"
+          min="1"
+          max="5"
+          required
+          class="form-input rating-input"
+          value="<%= locals.review_rating || 5 %>"
+        />
+      </div>
+
+      <!-- Hidden fields required by the Controller -->
+      <!-- CRITICAL FIX: The variable passed from the controller is 'inv_id' (not vehicle.inv_id) -->
+      <input type="hidden" name="inv_id" value="<%= inv_id %>" />
+
+      <!-- CRITICAL FIX: account_id is taken from res.locals.accountData if available -->
+      <input
+        type="hidden"
+        name="account_id"
+        value="<%= accountData.account_id %>"
+      />
+
+      <button type="submit" class="submit-button">Post Review</button>
+    </form>
+  </div>
+  <% } else { %>
+  <p class="login-prompt">
+    Please <a href="/account/login" class="link-style">Log In</a> to submit a
+    review.
+  </p>
+  <% } %>
+
+  <!-- 2. DISPLAY LIST OF EXISTING REVIEWS -->
+  <!-- CRITICAL FIX: Render the review list pre-built by the utility function -->
+  <h3 class="review-count">Customer Reviews</h3>
+  <% if (reviewHTML) { %> <%- reviewHTML %> <% } else { %>
+  <p class="no-reviews-message">
+    No reviews have been posted for this vehicle yet.
+  </p>
+  <% } %>
+</div>
+
+<!-- ========================================================= -->
+<!-- NEW: REVIEWS SECTION END -->
+<!-- ========================================================= -->
 <script>
   // I can add activity here.
 </script>

@@ -10,47 +10,24 @@ const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const session = require("express-session")
 const flash = require("connect-flash")
-// Carga las variables de entorno inmediatamente
+// Import the standard package for EJS flash messages (asume que has ejecutado: npm install express-messages)
+const expressMessages = require('express-messages') 
+// Load environment variables immediately
 const env = require("dotenv").config() 
 const pool = require('./database/')
-const Util = require("./utilities/") // Carga el objeto de utilidades
+const Util = require("./utilities/") // Load utilities object
 const cookieParser = require("cookie-parser")
 const path = require('path')
 
 // Create Express application
 const app = express()
 
-/* ***********************
- * Middleware Requires
- *************************/
-const staticRoutes = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute")
-const accountRoute = require("./routes/accountRoute")
-
 /* ***************************************
- * View Engine and Templates
- *****************************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout")
-app.set("views", path.join(__dirname, 'views'))
-
-/* ***************************************
- * Middleware for static files
- *****************************************/
-app.use(express.static("public"))
-
-/* ***************************************
- * Body Parsing Middleware
- *****************************************/
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-/* ***********************
  * Session Middleware
- *************************/
+ * Must come before any routes that use sessions/flash
+ *****************************************/
 app.use(session({
+    // Configure session storage to use PostgreSQL pool
     store: new (require('connect-pg-simple')(session))({
         createTableIfMissing: true,
         pool,
@@ -64,26 +41,59 @@ app.use(flash())
 app.use(cookieParser())
 
 /* *********************************
- * Flash Message Middleware
+ * Flash Message Rendering Middleware
+ * FIX: La utilidad customizada (Util.buildFlashMessage) generaba el error
+ * "messages is not a function". La reemplazamos con el middleware estándar 
+ * de 'express-messages', que provee la función 'messages()' esperada 
+ * por las vistas EJS.
  *********************************/
-app.use(function(req, res, next){
-    res.locals.messages = require('express-messages')(req, res)
-    next()
+// app.use(Util.buildFlashMessage) // <-- La utilidad customizada fue deshabilitada
+app.use((req, res, next) => {
+    // Asigna la función de renderizado de 'express-messages' a res.locals.messages
+    res.locals.messages = expressMessages(req, res);
+    next();
 })
 
+
 /* ***********************
- * JWT Token Middleware (Línea 76 corregida)
+ * JWT Token Middleware
+ * This function runs on every request to check for a JWT and set 
+ * res.locals.loggedin and res.locals.accountData if valid.
  *************************/
-// Esta función se ejecuta en cada solicitud para verificar si existe un token JWT
-// y establecer res.locals.loggedin y res.locals.accountData si es válido.
 app.use(Util.checkJWTToken)
 
+/* ***********************
+ * Middleware for static files
+ * Must be after auth middleware to ensure correct pathing
+ *************************/
+app.use(express.static("public"))
+
+/* ***************************************
+ * View Engine and Templates
+ *****************************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout")
+app.set("views", path.join(__dirname, 'views'))
+
+/* ***************************************
+ * Body Parsing Middleware
+ * Must come before any routes that use POST data
+ *****************************************/
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 
 /* ***********************
- * Routes
+ * Middleware Requires & Routes
  *************************/
+const staticRoutes = require("./routes/static")
+const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
+const reviewRoute = require("./routes/reviewRoute")
 
-// Static Routes
+// Static Routes (CSS, etc.)
 app.use(staticRoutes)
 
 // Index Route
@@ -94,6 +104,9 @@ app.use("/inv", inventoryRoute)
 
 // Account Routes
 app.use("/account", accountRoute)
+
+// Review Routes
+app.use("/reviews", reviewRoute)
 
 // Route to intentionally trigger a 500 error (for testing)
 app.get("/error", baseController.trigger500Error)
@@ -114,13 +127,13 @@ app.use(async (req, res, next) => {
  * Place after all other middleware and routes
  *************************/
 app.use(async (err, req, res, next) => {
-    // Asegúrate de que getNav esté correctamente importado o definido en Util
+    // Get the navigation links for the error page
     let nav = await Util.getNav() 
     
     // Log the error for debugging
     console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-    console.error(err.stack)
-    
+    // console.error(err.stack) // Uncomment to see the full stack trace
+
     // Determine status code and user-friendly message
     const status = err.status || 500
     let message = err.message
@@ -134,7 +147,7 @@ app.use(async (err, req, res, next) => {
         title: `Error ${status}`,
         message: message,
         nav,
-        layout: false, // Disable layout for error pages
+        layout: false, // Disable layout for error pages for better error visibility
     })
 })
 
